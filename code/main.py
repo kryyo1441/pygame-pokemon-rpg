@@ -3,6 +3,7 @@ from pytmx.util_pygame import load_pygame
 from os.path import join
 from sprites import Sprite 
 from entites import Player
+from groups import AllSprites
 
 class Game:
     def __init__(self):
@@ -12,7 +13,7 @@ class Game:
         self.clock= pygame.time.Clock()
 
         #groups
-        self.all_sprites = pygame.sprite.Group() # this group will contain all the sprites, well all the visible ones atleast :)
+        self.all_sprites = AllSprites() # this group will contain all the sprites, well all the visible ones atleast :)
 
         self.import_assets()
         self.setup(self.tmx_maps['world'], 'house')
@@ -26,7 +27,7 @@ class Game:
 
         for obj in tmx_map.get_layer_by_name('Entities'):
             if obj.name == 'Player' and obj.properties['pos'] == player_start_pos:
-                Player((obj.x, obj.y), self.all_sprites)
+                self.player = Player((obj.x, obj.y), self.all_sprites)
 
 
     def run(self):
@@ -40,7 +41,7 @@ class Game:
 
             # game logic
             self.all_sprites.update(dt)
-            self.all_sprites.draw(self.display_surface )
+            self.all_sprites.draw(self.player.rect.center)
             pygame.display.update()
                 
 if __name__ == '__main__':
