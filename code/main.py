@@ -9,6 +9,7 @@ class Game:
         pygame.init()
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption('pokemon-rpg')
+        self.clock= pygame.time.Clock()
 
         #groups
         self.all_sprites = pygame.sprite.Group() # this group will contain all the sprites, well all the visible ones atleast :)
@@ -31,13 +32,14 @@ class Game:
     def run(self):
         while True:
             # event loop 
+            dt = self.clock.tick() / 1000 #dt will give the diff of current frame and the last frame
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit()
 
             # game logic
-            self.all_sprites.update()
+            self.all_sprites.update(dt)
             self.all_sprites.draw(self.display_surface )
             pygame.display.update()
                 
