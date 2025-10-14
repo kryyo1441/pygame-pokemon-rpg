@@ -11,7 +11,7 @@ class Game:
         self.import_assets()
 
     def import_assets(self):
-        self.tmx_maps = {'world': load_pygame('data/maps/world.tmx')}
+        self.tmx_maps = {'world': load_pygame(join('..', 'data', 'maps', 'world.tmx'))}
         print(self.tmx_maps)
 
     def run(self):
