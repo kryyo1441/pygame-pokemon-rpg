@@ -22,8 +22,6 @@ class Game:
         self.tmx_maps = {
             'world': load_pygame(join('..', 'data', 'maps', 'world.tmx')),
             'hospital': load_pygame(join('..', 'data', 'maps', 'hospital.tmx')),
-
-            
             }
     
     def setup(self, tmx_map, player_start_pos):
