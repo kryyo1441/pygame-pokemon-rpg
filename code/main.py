@@ -16,7 +16,7 @@ class Game:
     
     def setup(self, tmx_map, player_start_pos):
         for x,y,surf in tmx_map.get_layer_by_name('Terrain').tiles():
-            print(x,y, surf)
+            print(x * TILE_SIZE,y * TILE_SIZE, surf)
 
 
     def run(self):
