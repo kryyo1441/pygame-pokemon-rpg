@@ -9,10 +9,15 @@ class Game:
         pygame.display.set_caption('pokemon-rpg')
 
         self.import_assets()
+        self.setup(self.tmx_maps['world'], 'house')
 
     def import_assets(self):
         self.tmx_maps = {'world': load_pygame(join('..', 'data', 'maps', 'world.tmx'))}
-        print(self.tmx_maps)
+    
+    def setup(self, tmx_map, player_start_pos):
+        for x,y,surf in tmx_map.get_layer_by_name('Terrain').tiles():
+            print(x,y, surf)
+
 
     def run(self):
         while True:
