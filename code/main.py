@@ -16,7 +16,7 @@ class Game:
         self.all_sprites = AllSprites() # this group will contain all the sprites, well all the visible ones atleast :)
 
         self.import_assets()
-        self.setup(self.tmx_maps['hospital'], 'world')
+        self.setup(self.tmx_maps['world'], 'house')
 
     def import_assets(self):
         self.tmx_maps = {
