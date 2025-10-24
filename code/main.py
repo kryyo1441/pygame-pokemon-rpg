@@ -45,6 +45,12 @@ class Game:
             if obj.name == 'Player' and obj.properties['pos'] == player_start_pos:
                 self.player = Player((obj.x, obj.y), self.all_sprites)
 
+        #water
+        for obj in tmx_map.get_layer_by_name('Water'):
+            print(obj.width)
+            print(obj.height)
+            print(obj.x, obj.y)
+
 
     def run(self):
         while True:
