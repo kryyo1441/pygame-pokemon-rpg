@@ -4,13 +4,16 @@ class Entity(pygame.sprite.Sprite):
     def __init__(self, pos, frames, groups):
         super().__init__(groups)
 
-     # graphics
+         # graphics
         self.frame_index, self.frames = 0, frames
 
          # sprite setup
         self.image = self.frames['down'][self.frame_index]
         self.rect = self.image.get_frect(center = pos)
     
+    def animate(self, dt):
+        self.frame_index += ANIMATION_SPEED * dt
+        self.image = self.frames['down'][int(self.frame_index % len(self.frames['down']))]
 
 class Player(Entity):
     def __init__(self, pos, frames, groups):
@@ -37,3 +40,4 @@ class Player(Entity):
     def update(self, dt):
         self.input()
         self.move(dt)
+        self.animate(dt)
