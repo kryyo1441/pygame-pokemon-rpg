@@ -1,7 +1,7 @@
 from settings import *
 from pytmx.util_pygame import load_pygame 
 from os.path import join
-from sprites import Sprite 
+from sprites import Sprite, AnimatedSprite 
 from entites import Player
 from groups import AllSprites
 
@@ -47,10 +47,9 @@ class Game:
 
         #water
         for obj in tmx_map.get_layer_by_name('Water'):
-            print(obj.width)
-            print(obj.height)
-            print(obj.x, obj.y)
-
+            for x in range(int(obj.x), int(obj.x + obj.width), TILE_SIZE):
+                for y in range(int(obj.y), int(obj.y + obj.height), TILE_SIZE):
+                    AnimatedSprite((x,y), self.overworld_frames['water'], self.all_sprites)
 
     def run(self):
         while True:
