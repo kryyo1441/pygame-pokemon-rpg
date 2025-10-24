@@ -5,6 +5,8 @@ from sprites import Sprite
 from entites import Player
 from groups import AllSprites
 
+from support import *
+
 class Game:
     def __init__(self):
         pygame.init()
@@ -23,6 +25,10 @@ class Game:
             'world': load_pygame(join('..', 'data', 'maps', 'world.tmx')),
             'hospital': load_pygame(join('..', 'data', 'maps', 'hospital.tmx')),
             }
+        
+        self.overworld_frames = {
+            'water': import_folder('..','graphics','tilesets','water')
+        }
     
     def setup(self, tmx_map, player_start_pos):
         #terrain 
