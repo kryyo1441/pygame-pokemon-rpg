@@ -1,2 +1,11 @@
 this is a test commit.
 this is a test commit for chiku.
+
+# compute movement as a Vector2 and apply to rect coordinates to avoid tuple/Vector2 addition errors
+        movement = self.direction * self.speed * dt
+        self.rect.centerx += movement.x
+        self.rect.centery += movement.y
+
+
+sprites
+super().__init__(pos, surf, groups)
