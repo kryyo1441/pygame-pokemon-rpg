@@ -20,5 +20,6 @@ class AllSprites(pygame.sprite.Group):
         for layer in (bg_sprites, main_sprites, fg_sprites):
             for sprite in layer:
                 if isinstance in (sprite,Entity):
+                    self.display_surface.blit(self.shadow_surf, sprite.rect.topleft + self.offset)
                 # draw sprites from the current layer (bg, main (sorted), fg)
                 self.display_surface.blit(sprite.image, sprite.rect.topleft + self.offset)

@@ -9,3 +9,7 @@ this is a test commit for chiku.
 
 sprites
 super().__init__(pos, surf, groups)
+
+
+2:18:43
+
