@@ -3,6 +3,7 @@ from settings import *
 class Entity(pygame.sprite.Sprite):
     def __init__(self, pos, frames, groups, facing_direction):
         super().__init__(groups)
+        self.z = WORLD_LAYERS['main']
 
          # graphics
         self.frame_index, self.frames = 0, frames
