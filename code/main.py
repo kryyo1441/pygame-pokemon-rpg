@@ -1,7 +1,7 @@
 from settings import *
 from pytmx.util_pygame import load_pygame 
 from os.path import join
-from sprites import Sprite, AnimatedSprite, MonsterPatchSprite, BorderSprite
+from sprites import Sprite, AnimatedSprite, MonsterPatchSprite, BorderSprite, CollidableSprite
 from entites import Player, Character
 from groups import AllSprites
 
@@ -56,7 +56,7 @@ class Game:
             if obj.name == "top":
                 Sprite((obj.x,obj.y), obj.image, self.all_sprites, WORLD_LAYERS['top'])
             else:
-                Sprite((obj.x,obj.y), obj.image, (self.all_sprites, self.collision_sprites))
+                CollidableSprite((obj.x,obj.y), obj.image, (self.all_sprites, self.collision_sprites))
 
         # collision Objects
         for obj in tmx_map.get_layer_by_name('Collisions'):
