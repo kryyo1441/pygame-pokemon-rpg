@@ -23,3 +23,4 @@ class AllSprites(pygame.sprite.Group):
                     self.display_surface.blit(self.shadow_surf, sprite.rect.topleft + self.offset)
                 # draw sprites from the current layer (bg, main (sorted), fg)
                 self.display_surface.blit(sprite.image, sprite.rect.topleft + self.offset)
+                
