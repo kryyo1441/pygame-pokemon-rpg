@@ -60,7 +60,7 @@ class Game:
 
         # collision Objects
         for obj in tmx_map.get_layer_by_name('Collisions'):
-        BorderSprite((obj.x, obj.y), pygame.Surface((obj.width, obj.height)), (self.all_sprites, self.collision_sprites))
+            BorderSprite((obj.x, obj.y), pygame.Surface((obj.width, obj.height)), (self.all_sprites, self.collision_sprites))
         
         #grass sections
         for obj in tmx_map.get_layer_by_name('Monsters'):
