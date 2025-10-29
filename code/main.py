@@ -74,7 +74,8 @@ class Game:
                         pos= (obj.x, obj.y),
                         frames = self.overworld_frames['characters']['player'], 
                         groups = self.all_sprites,
-                        facing_direction=obj.properties['direction']) 
+                        facing_direction=obj.properties['direction'],
+                        collision_sprites = self.collision_sprites) 
             else:
                 Character(
                         pos= (obj.x, obj.y),
