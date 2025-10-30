@@ -158,8 +158,8 @@ class Game:
                         character.can_rotate = False
 
             if keys[pygame.K_RETURN]:
-                self.index_open = not self.index_open
-                self.player.blocked = not self.player.blocked
+                self.index_open = not self.index_open#open/close the index
+                self.player.blocked = not self.player.blocked# pause the player when screen open
         
     def create_dialog(self, character):
         if not self.dialog_tree:
