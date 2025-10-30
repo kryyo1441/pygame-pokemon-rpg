@@ -159,6 +159,7 @@ class Game:
 
             if keys[pygame.K_RETURN]:
                 self.index_open = not self.index_open
+                self.player.blocked = not self.player.blocked
         
     def create_dialog(self, character):
         if not self.dialog_tree:
