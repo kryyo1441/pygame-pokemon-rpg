@@ -150,7 +150,18 @@ class MonsterIndex:
         ep_rect = ep_text.get_frect(midleft = energybar_rect.midleft + vector(10,0))
         self.display_surface.blit(ep_text, ep_rect)
 
+       # info 
+        sides = {'left': healthbar_rect.left, 'right': energybar_rect.left}
+        info_height = rect.bottom - healthbar_rect.bottom
     
+        #stats
+        stats_rect = pygame.FRect(sides['left'], healthbar_rect.bottom, healthbar_rect.width, info_height).inflate(0,-60).move(0,15)
+        stats_text_surf = self.fonts['regular'].render('Stats', False, COLORS['white'])
+        stats_text_rect = stats_text_surf.get_frect(bottomleft = stats_rect.topleft)
+        self.display_surface.blit(stats_text_surf, stats_text_rect)
+
+
+
     def update(self, dt):
         #input
         self.input()
