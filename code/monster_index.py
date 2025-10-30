@@ -1,6 +1,6 @@
 from settings import *
 from support import draw_bar
-from game_data import MONSTER_DATA
+from game_data import ATTACK_DATA, MONSTER_DATA
 
 class MonsterIndex:
     def __init__(self, monsters, fonts, monster_frames):
@@ -196,7 +196,13 @@ class MonsterIndex:
             bar_rect = pygame.FRect((text_rect.left, text_rect.bottom + 2), (single_stat_rect.width  - (text_rect.left - single_stat_rect.left),4))
             draw_bar(self.display_surface, bar_rect, value, self.max_stats[stat] * monster.level, COLORS['white'], COLORS['black'])
 
+            #abilites
+            ability_rect = stats_rect.copy().move_to(left = sides['right'])
+            ability_text_surf = self.fonts['regular'].render('Ability', False, COLORS['white'])
+            ability_text_rect = ability_text_surf.get_frect(bottomleft = ability_rect.topleft)
+            self.display_surface.blit(ability_text_surf, ability_text_rect)
 
+        
     def update(self, dt):
         #input
         self.input()
