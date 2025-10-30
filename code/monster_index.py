@@ -61,6 +61,10 @@ class MonsterIndex:
         self.index = self.index % len(self.monsters)
 
     def display_list(self):
+        bg_rect = pygame.FRect(self.main_rect.topleft, (self.list_width, self.main_rect.height))
+        pygame.draw.rect(self.display_surface, COLORS['gray'], bg_rect, 0,0,12,0,12,0)
+
+
         v_offset = 0 if self.index < self.visible_items else -(self.index - self.visible_items +1) * self.item_height#selecting pokemon
         for index, monster in self.monsters.items():
             #selecting a pokemon in index
@@ -92,7 +96,7 @@ class MonsterIndex:
 
 
        #lines to separate the rows
-        for i in range(min(self.visible_items, len(self.monsters))):  #only draw lines for visible items
+        for i in range(1, min(self.visible_items, len(self.monsters))):  #only draw lines for visible items
             y = self.main_rect.top + i * self.item_height
             left = self.main_rect.left
             right = self.main_rect.left + self.list_width
