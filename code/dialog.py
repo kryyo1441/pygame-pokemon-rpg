@@ -16,7 +16,19 @@ class DialogSprite(pygame.sprite.Sprite):
         
         super().__init__(groups)
         self.z = WORLD_LAYERS['top']
+        
         # text
         text_surf = font.render(message, False, COLORS['black'])
-        self.image = text_surf
-        self.rect = self.image.get_frect(midbottom = character.rect.midtop + vector(0,-10))
+        padding = 5
+        width = max(30, text_surf.get_width() + padding * 2)
+        height = text_surf.get_height() + padding * 2
+
+        # background
+        surf = pygame.Surface((width, height))
+        surf.fill(COLORS['pure white'])
+        surf.blit(text_surf, text_surf.get_rect(center = (width / 2, height / 2)))
+        
+        # sprite setup
+        self.image = surf
+        self.rect = self.image.get_rect(midbottom = character.rect.midtop + vector(0, -10))
+
