@@ -24,6 +24,14 @@ class Game:
         self.transition_sprites = pygame.sprite.Group() #for transition areas
 
 
+        # transition / tint
+        self.transition_target = None
+        self.tint_surf=pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
+        self.tint_mode = 'untint'
+        self.tint_progress = 0
+        self.tint_direction = -1
+        self.tint_speed = 600
+
         self.import_assets()
         self.setup(self.tmx_maps['world'], 'house')
         self.dialog_tree = None
@@ -73,7 +81,6 @@ class Game:
         # transition objects
         for obj in tmx_map.get_layer_by_name('Transition'):
             TransitionSprite((obj.x, obj.y), (obj.width, obj.height), (obj.properties['target'], obj.properties['pos']), self.transition_sprites)
-
 
         
 
@@ -138,6 +145,26 @@ class Game:
         sprites = [sprite for sprite in self.transition_sprites.sprites() if sprite.rect.colliderect(self.player.hitbox)]
         if sprites:
             self.player.block()
+            self.transition_target = sprites[0].target
+            self.tint_mode = 'tint'
+
+
+    def tint_screen(self, dt):
+        if self.tint_mode == 'untint':
+            self.tint_progress -= self.tint_speed * dt
+        
+        
+        if self.tint_mode == 'tint':
+            self.tint_progress += self.tint_speed * dt
+            if self.tint_progress >= 255:
+                self.setup(self.tmx_maps[self.transition_target[0]], self.transition_target[1])
+                self.tint_mode = 'untint'
+                self.transition_target = None
+
+        self.tint_progress = max(0, min(self.tint_progress, 255))
+        self.tint_surf.set_alpha(self.tint_progress)
+        self.display_surface.blit(self.tint_surf, (0,0))
+            
 
 
     def run(self):
@@ -163,6 +190,8 @@ class Game:
                     self.dialog_tree = None
                 
             pygame.display.update()
+            self.tint_screen(dt)
+
 if __name__ == '__main__':
     game = Game()
     game.run()
