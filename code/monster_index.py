@@ -33,13 +33,14 @@ class MonsterIndex:
         self.index = self.index % len(self.monsters)
 
     def display_list(self):
+        v_offset = 0 if self.index < self.visible_items else -(self.index - self.visible_items +1) * self.item_height
         for index, monster in self.monsters.items():
             #selecting a pokemon in index
             bg_color = COLORS['gray'] if self.index != index else COLORS['light']
             text_color = COLORS['white']
 
 
-            top = self.main_rect.top + index * self.item_height
+            top = self.main_rect.top + index * self.item_height + v_offset
             item_rect = pygame.FRect(self.main_rect.left, top, self.list_width, self.item_height)
         
             
