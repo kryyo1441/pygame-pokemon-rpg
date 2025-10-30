@@ -36,3 +36,9 @@ class AnimatedSprite(Sprite):
 
     def update(self, dt):
         self.animate(dt)
+
+class TransitionSprite(Sprite):
+    def __init__(self, pos, size, target, groups):
+        surf = pygame.Surface(size)
+        super().__init__(pos, surf, groups)
+        self.target = target
