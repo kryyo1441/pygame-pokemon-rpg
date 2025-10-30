@@ -109,7 +109,7 @@ class Character(Entity):
                 self.direction = vector()
                 self.has_moved = True
                 self.create_dialog(self)
-                self.plaeyr.noticed = False
+                self.player.noticed = False
 
     def update(self, dt):
         for timer in self.timers.values():
