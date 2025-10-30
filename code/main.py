@@ -1,10 +1,11 @@
 from settings import *
 from pytmx.util_pygame import load_pygame 
 from os.path import join
+from game_data import *
 from sprites import Sprite, AnimatedSprite, MonsterPatchSprite, BorderSprite, CollidableSprite
 from entites import Player, Character
 from groups import AllSprites
-
+from dialog import DialogTree
 from support import *
 
 class Game:
@@ -13,11 +14,12 @@ class Game:
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption('pokemon-rpg')
         self.clock= pygame.time.Clock()
+        self.dialog_tree = None
 
         #groups
         self.all_sprites = AllSprites() # this group will contain all the sprites, well all the visible ones atleast :)
         self.collision_sprites = pygame.sprite.Group()
-
+        self.character_sprites = pygame.sprite.Group()
         self.import_assets()
         self.setup(self.tmx_maps['world'], 'house')
 
@@ -31,6 +33,9 @@ class Game:
             'water': import_folder('..','graphics','tilesets','water'),
             'coast': coast_importer(24,12,'..','graphics', 'tilesets','coast'),
             'characters': all_character_import('..','graphics','characters')
+        }
+        self.fonts = {
+            'dialog': pygame.font.Font(join('..', 'graphics', 'fonts', 'PixeloidSans.ttf'), 30),
         }
 
     def setup(self, tmx_map, player_start_pos):
@@ -58,6 +63,7 @@ class Game:
             else:
                 CollidableSprite((obj.x,obj.y), obj.image, (self.all_sprites, self.collision_sprites))
 
+
         # collision Objects
         for obj in tmx_map.get_layer_by_name('Collisions'):
             BorderSprite((obj.x, obj.y), pygame.Surface((obj.width, obj.height)), self.collision_sprites)
@@ -75,13 +81,44 @@ class Game:
                         frames = self.overworld_frames['characters']['player'], 
                         groups = self.all_sprites,
                         facing_direction=obj.properties['direction'],
-                        collision_sprites = self.collision_sprites) 
+                        collision_sprites = self.collision_sprites)
             else:
                 Character(
-                        pos= (obj.x, obj.y),
-                        frames = self.overworld_frames['characters'][obj.properties['graphic']], 
-                        groups = (self.all_sprites, self.collision_sprites),
-                        facing_direction=obj.properties['direction']) 
+                    pos=(obj.x, obj.y),
+                    frames=self.overworld_frames['characters'][obj.properties['graphic']],
+                    groups=(self.all_sprites, self.collision_sprites, self.character_sprites),
+                    facing_direction=obj.properties['direction'],
+                    character_data=TRAINER_DATA[obj.properties['character_id']],
+                    player=self.player,
+                    create_dialog=self.create_dialog,
+                    collision_sprites=self.collision_sprites,
+                    radius=obj.properties['radius'])
+
+    def input(self):
+        if not self.dialog_tree:
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_SPACE]:
+                for character in self.character_sprites:
+                    if check_connections(100, self.player, character):
+                        self.player.block()
+                        character.change_facing_direction(self.player.rect.center)
+                        self.create_dialog(character)
+                        character.can_rotate = False
+
+                if keys[pygame.K_RETURN]:
+                    self.index_open = not self.index_open
+                    self.player.blocked = not self.player.blocked
+
+    def create_dialog(self, character):
+        if not self.dialog_tree:
+            self.dialog_tree = DialogTree(character, self.player, self.all_sprites, self.fonts['dialog'],
+                                          self.end_dialog)
+
+    def end_dialog(self, character):
+        self.dialog_tree = None
+        self.player.unblock()
+
+
 
     def run(self):
         while True:
@@ -93,9 +130,10 @@ class Game:
                     exit()
 
             # game logic
+            self.input()
             self.all_sprites.update(dt)
             self.display_surface.fill("Black")
-            self.all_sprites.draw(self.player.rect.center)
+            self.all_sprites.draw(self.player)
             pygame.display.update()
                 
 if __name__ == '__main__':
