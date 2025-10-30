@@ -22,6 +22,7 @@ class MonsterIndex:
         self.list_width = self.main_rect.width * 0.3
         self.item_height = self.main_rect.height / self.visible_items
         self.index = 0
+        self.selected_index = None
 
     def input(self):
         keys = pygame.key.get_just_pressed()
@@ -29,15 +30,24 @@ class MonsterIndex:
             self.index -= 1
         if keys[pygame.K_DOWN]:
             self.index += 1
-        
+        if keys[pygame.K_SPACE]:
+            if self.selected_index != None:
+                selected_monster = self.monsters[self.selected_index]
+                current_monster = self.monsters[self.index]
+                self.monsters[self.index] = selected_monster
+                self.monsters[self.selected_index] = current_monster
+                self.selected_index = None
+            else:
+                self.selected_index = self.index
+
         self.index = self.index % len(self.monsters)
 
     def display_list(self):
-        v_offset = 0 if self.index < self.visible_items else -(self.index - self.visible_items +1) * self.item_height
+        v_offset = 0 if self.index < self.visible_items else -(self.index - self.visible_items +1) * self.item_height#selecting pokemon
         for index, monster in self.monsters.items():
             #selecting a pokemon in index
             bg_color = COLORS['gray'] if self.index != index else COLORS['light']
-            text_color = COLORS['white']
+            text_color = COLORS['white'] if self.selected_index != index else COLORS['gold']
 
 
             top = self.main_rect.top + index * self.item_height + v_offset
