@@ -1,31 +1,37 @@
 from settings import *
+from timer import Timer
 
 class DialogTree:
-    def __init__(self, character, player, all_sprites, font):
+    def __init__(self, character, player, all_sprites, font, end_dialog):
         self.player = player
         self.character = character
         self.font = font
         self.all_sprites = all_sprites
+        self.end_dialog = end_dialog
         self.dialog = character.get_dialog()
         self.dialog_num = len(self.dialog)
         self.dialog_index = 0
         self.current_dialog = DialogSprite(self.dialog[self.dialog_index], self.character, self.all_sprites, self.font)
 
+        self.dialog_timer = Timer(500, autostart = True)
+
     def input(self):
-        keys = pygame.key.get_just_pressed()
-        if keys[pygame.K_SPACE]:
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE] and not self.dialog_timer.active:
             self.current_dialog.kill()
             self.dialog_index += 1
             if self.dialog_index < self.dialog_num:
                 self.current_dialog = DialogSprite(self.dialog[self.dialog_index], self.character, self.all_sprites, self.font)
+                self.dialog_timer.activate()
             else:
-                self.player.unblock()
-                return True
+                self.end_dialog(self.character)
         return False
 
     def update(self):
+        self.dialog_timer.update()
         if self.input():
             return True
+        return False
 
 
 class DialogSprite(pygame.sprite.Sprite):
