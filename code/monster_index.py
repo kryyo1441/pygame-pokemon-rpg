@@ -73,8 +73,8 @@ class MonsterIndex:
                self.display_surface.blit(icon_surf, icon_rect)
 
 
-       #lines
-        for i in range(self.visible_items ):
+       #lines to separate the rows
+        for i in range(min(self.visible_items, len(self.monsters))):  #only draw lines for visible items
             y = self.main_rect.top + i * self.item_height
             left = self.main_rect.left
             right = self.main_rect.left + self.list_width
