@@ -37,10 +37,7 @@ class Game:
         self.dialog_tree = None
 
     def import_assets(self):
-        self.tmx_maps = {
-            'world': load_pygame(join('..', 'data', 'maps', 'world.tmx')),
-            'hospital': load_pygame(join('..', 'data', 'maps', 'hospital.tmx')),
-            }
+        self.tmx_maps = tmx_importer('..','data','maps')
         
         self.overworld_frames = {
             'water': import_folder('..','graphics','tilesets','water'),
@@ -53,6 +50,12 @@ class Game:
         }
 
     def setup(self, tmx_map, player_start_pos):
+        #clear the map
+        for group in [self.all_sprites, self.collision_sprites, self.transition_sprites, self.character_sprites]:
+            group.empty()
+
+
+
         #terrain 
         for layer in ['Terrain','Terrain Top']:
             for x,y,surf in tmx_map.get_layer_by_name(layer).tiles():
@@ -161,6 +164,9 @@ class Game:
                 self.tint_mode = 'untint'
                 self.transition_target = None
 
+        self.tint_surf.set_alpha(self.tint_progress)
+        self.display_surface.blit(self.tint_surf, (0,0))
+
         self.tint_progress = max(0, min(self.tint_progress, 255))
         self.tint_surf.set_alpha(self.tint_progress)
         self.display_surface.blit(self.tint_surf, (0,0))
@@ -177,20 +183,22 @@ class Game:
                     pygame.quit()
                     exit()
 
-            # game logic
+            # game logic update
             self.input()
             self.transition_check()
             self.all_sprites.update(dt)
+
+            #draw the game
             self.all_sprites.draw(self.player)
             
 
             #overlays repeat
-            if self.dialog_tree:
-                if self.dialog_tree.update():
-                    self.dialog_tree = None
-                
+            if self.dialog_tree: self.dialog_tree.update()
+
+            self.tint_screen(dt)    
             pygame.display.update()
-            self.tint_screen(dt)
+            
+            
 
 if __name__ == '__main__':
     game = Game()
