@@ -90,7 +90,17 @@ class Game:
         if keys[pygame.K_SPACE]:
             for character in self.character_sprites:
                 if check_connections(100, self.player, character):
-                    print("dialog")
+                    #block player input
+                    self.player.block()
+                    #ents face eachother
+                    character.change_facing_direction(self.player.rect.center) 
+                    #create dialogue
+                    self.create_dialog(character)
+    
+    def create_dialog():
+        DialogTree
+
+
     def run(self):
         while True:
             # event loop 
