@@ -31,12 +31,13 @@ class MonsterIndex:
             text_surf = self.fonts['regular'].render(monster.name, False, COLORS['white'])
             text_rect = text_surf.get_frect(midleft = item_rect.midleft + vector(90,0))
 
-            icon_surf = self.icon_frame[monster.name]
+            icon_surf = self.icon_frame[monster.name] #added icons
             icon_rect = icon_surf.get_frect(center = item_rect.midleft + vector(45,0))
 
-            pygame.draw.rect(self.display_surface, COLORS['gray'], item_rect)
-            self.display_surface.blit(text_surf, text_rect)
-            self.display_surface.blit(icon_surf, icon_rect)
+            if item_rect.colliderect(self.main_rect):  #removing the extra pokemon from the index
+               pygame.draw.rect(self.display_surface, COLORS['gray'], item_rect)
+               self.display_surface.blit(text_surf, text_rect)
+               self.display_surface.blit(icon_surf, icon_rect)
 
     def update(self, dt):
         #input
