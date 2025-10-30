@@ -8,6 +8,7 @@ from groups import AllSprites
 from dialog import *
 
 from support import *
+from monster import Monster #import monster file
 
 class Game:
     #general stuff
@@ -16,6 +17,19 @@ class Game:
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption('pokemon-rpg')
         self.clock= pygame.time.Clock()
+        
+        #player monster
+        self.player_monsters = {
+            0: Monster('Charmadillo', 30),
+            1: Monster('Friolera', 29),
+            2: Monster('Cindrill', 16),
+			3: Monster('Atrox', 10),
+			4: Monster('Sparchu', 11),
+			5: Monster('Gulfin', 9),
+			6: Monster('Jacana', 10)
+        }
+
+
 
         #groups
         self.all_sprites = AllSprites() # this group will contain all the sprites, well all the visible ones atleast :)
@@ -151,7 +165,6 @@ class Game:
             self.transition_target = sprites[0].target
             self.tint_mode = 'tint'
 
-
     def tint_screen(self, dt):
         if self.tint_mode == 'untint':
             self.tint_progress -= self.tint_speed * dt
@@ -171,8 +184,6 @@ class Game:
         self.tint_surf.set_alpha(self.tint_progress)
         self.display_surface.blit(self.tint_surf, (0,0))
             
-
-
     def run(self):
         while True:
             # event loop 
