@@ -11,6 +11,23 @@ class DialogTree:
         self.dialog_index = 0
         self.current_dialog = DialogSprite(self.dialog[self.dialog_index], self.character, self.all_sprites, self.font)
 
+    def input(self):
+        keys = pygame.key.get_just_pressed()
+        if keys[pygame.K_SPACE]:
+            self.current_dialog.kill()
+            self.dialog_index += 1
+            if self.dialog_index < self.dialog_num:
+                self.current_dialog = DialogSprite(self.dialog[self.dialog_index], self.character, self.all_sprites, self.font)
+            else:
+                self.player.unblock()
+                return True
+        return False
+
+    def update(self):
+        if self.input():
+            return True
+
+
 class DialogSprite(pygame.sprite.Sprite):
     def __init__(self, message, character, groups, font):
         
@@ -24,9 +41,11 @@ class DialogSprite(pygame.sprite.Sprite):
         height = text_surf.get_height() + padding * 2
 
         # background
-        surf = pygame.Surface((width, height))
-        surf.fill(COLORS['pure white'])
-        surf.blit(text_surf, text_surf.get_rect(center = (width / 2, height / 2)))
+        surf = pygame.Surface((width, height), pygame.SRCALPHA)
+        surf.fill((0, 0, 0, 0))
+        pygame.draw.rect(surf, COLORS['pure white'], surf.get_frect(topleft = (0, 0)), 0, 4)
+        surf.blit(text_surf, text_surf.get_frect(center = (width / 2, height / 2)))
+
         
         # sprite setup
         self.image = surf
