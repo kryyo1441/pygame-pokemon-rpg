@@ -53,6 +53,7 @@ class Game:
         #overlay
         self.dialog_tree = None
         self.monster_index = MonsterIndex(self.player_monsters, self.fonts)
+        self.index_open = False
 
     def import_assets(self):
         self.tmx_maps = tmx_importer('..','data','maps')
@@ -155,6 +156,9 @@ class Game:
                         #create dialogue
                         self.create_dialog(character)
                         character.can_rotate = False
+
+            if keys[pygame.K_RETURN]:
+                self.index_open = not self.index_open
         
     def create_dialog(self, character):
         if not self.dialog_tree:
@@ -212,7 +216,7 @@ class Game:
 
             #overlays repeat
             if self.dialog_tree: self.dialog_tree.update()
-            if self.monster_index: self.monster_index.update(dt)
+            if self.index_open: self.monster_index.update(dt)
 
             self.tint_screen(dt)    
             pygame.display.update()
