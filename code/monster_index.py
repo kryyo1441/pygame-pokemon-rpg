@@ -5,9 +5,11 @@ class MonsterIndex:
         self.display_surface = pygame.display.get_surface()
         self.fonts = fonts
         self.monsters = monsters
+        self.frame_index = 0
 
         #frames
         self.icon_frame = monster_frames['icons']
+        self.monster_frames = monster_frames['monsters']
         
         #tint surf
         self.tint_surf = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -96,6 +98,14 @@ class MonsterIndex:
         # monster display
         top_rect = pygame.FRect(rect.topleft, (rect.width, rect.height * 0.4))
         pygame.draw.rect(self.display_surface, COLORS[monster.element], top_rect, 0,0,0,12)
+
+        # monster animation 
+        self.frame_index += ANIMATION_SPEED * dt
+        monster_surf = self.monster_frames[monster.name]['idle'][int(self.frame_index) % len(self.monster_frames[monster.name]['idle'])]
+        monster_rect = monster_surf.get_frect(center = top_rect.center)
+        self.display_surface.blit(monster_surf, monster_rect)
+
+
     
     def update(self, dt):
         #input
