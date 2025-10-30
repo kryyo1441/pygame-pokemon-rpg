@@ -93,7 +93,7 @@ class Game:
                         character_data = TRAINER_DATA[obj.properties['character_id']]) 
 
     def input(self):
-        keys = pygame.key.get_just_pressed()  # Use get_pressed() instead of get_just_pressed()
+        keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE]:
             for character in self.character_sprites:
                 if check_connections(100, self.player, character):
