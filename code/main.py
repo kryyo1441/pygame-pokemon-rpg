@@ -6,6 +6,7 @@ from sprites import Sprite, AnimatedSprite, MonsterPatchSprite, BorderSprite, Co
 from entites import Player, Character
 from groups import AllSprites
 from dialog import *
+from monster_index import MonsterIndex
 
 from support import *
 from monster import Monster #import monster file
@@ -48,7 +49,10 @@ class Game:
 
         self.import_assets()
         self.setup(self.tmx_maps['world'], 'house')
+        
+        #overlay
         self.dialog_tree = None
+        self.monster_index = MonsterIndex(self.player_monsters, self.fonts)
 
     def import_assets(self):
         self.tmx_maps = tmx_importer('..','data','maps')
@@ -208,6 +212,7 @@ class Game:
 
             #overlays repeat
             if self.dialog_tree: self.dialog_tree.update()
+            if self.monster_index: self.monster_index.update(dt)
 
             self.tint_screen(dt)    
             pygame.display.update()
