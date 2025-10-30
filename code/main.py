@@ -17,6 +17,8 @@ class Game:
         #groups
         self.all_sprites = AllSprites() # this group will contain all the sprites, well all the visible ones atleast :)
         self.collision_sprites = pygame.sprite.Group()
+        self.character_sprites = pygame.sprite.Group()
+
 
         self.import_assets()
         self.setup(self.tmx_maps['world'], 'house')
@@ -83,6 +85,10 @@ class Game:
                         groups = (self.all_sprites, self.collision_sprites),
                         facing_direction=obj.properties['direction']) 
 
+    def input(self):
+        keys = pygame.key.get_just_pressed()
+        if keys[pygame.K_SPACE]:
+            print("bruh")
     def run(self):
         while True:
             # event loop 
@@ -93,6 +99,7 @@ class Game:
                     exit()
 
             # game logic
+            self.input()
             self.all_sprites.update(dt)
             self.display_surface.fill("Black")
             self.all_sprites.draw(self.player.rect.center)
