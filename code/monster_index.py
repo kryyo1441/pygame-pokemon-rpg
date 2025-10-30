@@ -38,6 +38,8 @@ class MonsterIndex:
                         self.max_stats[stat] = value
                     else:
                         self.max_stats[stat] = value if value > self.max_stats[stat] else self.max_stats[stat]
+        self.max_stats['health'] = self.max_stats.pop('max_health')
+        self.max_stats['energy'] = self.max_stats.pop('max_energy')
 
 
     def input(self):
