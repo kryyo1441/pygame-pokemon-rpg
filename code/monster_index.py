@@ -1,10 +1,13 @@
 from settings import *
 
 class MonsterIndex:
-    def __init__(self, monsters, fonts):
+    def __init__(self, monsters, fonts, monster_frames):
         self.display_surface = pygame.display.get_surface()
         self.fonts = fonts
         self.monsters = monsters
+
+        #frames
+        self.icon_frame = monster_frames['icons']
         
         #tint surf
         self.tint_surf = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -23,12 +26,18 @@ class MonsterIndex:
         for index, monster in self.monsters.items():
             top = self.main_rect.top + index * self.item_height
             item_rect = pygame.FRect(self.main_rect.left, top, self.list_width, self.item_height)
-            pygame.draw.rect(self.display_surface, 'red', item_rect)
+        
             
-            #monster name
-            name_surf = self.fonts['small'].render(monster.name, True, 'white')
-            name_rect = name_surf.get_rect(midleft = item_rect.move(10,0).midleft)
-            self.display_surface.blit(name_surf, name_rect)
+            text_surf = self.fonts['regular'].render(monster.name, False, COLORS['white'])
+            text_rect = text_surf.get_frect(midleft = item_rect.midleft + vector(90,0))
+
+            icon_surf = self.icon_frame[monster.name]
+            icon_rect = icon_surf.get_frect(center = item_rect.midleft + vector(45,0))
+
+            pygame.draw.rect(self.display_surface, COLORS['gray'], item_rect)
+            self.display_surface.blit(text_surf, text_rect)
+            self.display_surface.blit(icon_surf, icon_rect)
+
     def update(self, dt):
         #input
         self.display_surface.blit(self.tint_surf, (0,0))

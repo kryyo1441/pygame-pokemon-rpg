@@ -52,7 +52,7 @@ class Game:
         
         #overlay
         self.dialog_tree = None
-        self.monster_index = MonsterIndex(self.player_monsters, self.fonts)
+        self.monster_index = MonsterIndex(self.player_monsters, self.fonts, self.monster_frames)
         self.index_open = False
 
     def import_assets(self):
@@ -63,6 +63,11 @@ class Game:
             'coast': coast_importer(24,12,'..','graphics', 'tilesets','coast'),
             'characters': all_character_import('..','graphics','characters')
         }
+
+        self.monster_frames = {
+           "icons": import_folder_dict('..','graphics','icons')
+       }
+        print(self.monster_frames['icons'])
 
         self.fonts = {
             'dialog': pygame.font.Font(join('..', 'graphics', 'fonts', 'PixeloidSans.ttf'), 30),
