@@ -64,12 +64,26 @@ class MonsterIndex:
                #check corner
                if item_rect.collidepoint(self.main_rect.topleft):
                    pygame.draw.rect(self.display_surface, bg_color, item_rect,0,0,12)
+               elif item_rect.collidepoint(self.main_rect.bottomleft+vector(1,-1)):
+                   pygame.draw.rect(self.display_surface, bg_color, item_rect,0,0,0,0,12,0)
                else:
                    pygame.draw.rect(self.display_surface, bg_color, item_rect)
                
                self.display_surface.blit(text_surf, text_rect)
                self.display_surface.blit(icon_surf, icon_rect)
 
+
+       #lines
+        for i in range(self.visible_items ):
+            y = self.main_rect.top + i * self.item_height
+            left = self.main_rect.left
+            right = self.main_rect.left + self.list_width
+            pygame.draw.line(self.display_surface, COLORS['light-gray'], (left, y), (right, y))
+
+        #shadow 
+        shadow_surf = pygame.Surface((4,self.main_rect.height))
+        shadow_surf.set_alpha(100)
+        self.display_surface.blit(shadow_surf, (self.main_rect.left +self.list_width -4,self.main_rect.top))
     def update(self, dt):
         #input
         self.input()
