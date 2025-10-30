@@ -82,13 +82,15 @@ class Game:
                 Character(
                         pos= (obj.x, obj.y),
                         frames = self.overworld_frames['characters'][obj.properties['graphic']], 
-                        groups = (self.all_sprites, self.collision_sprites),
+                        groups = (self.all_sprites, self.collision_sprites, self.character_sprites),
                         facing_direction=obj.properties['direction']) 
 
     def input(self):
-        keys = pygame.key.get_just_pressed()
+        keys = pygame.key.get_just_pressed()  # Use get_pressed() instead of get_just_pressed()
         if keys[pygame.K_SPACE]:
-            print("bruh")
+            for character in self.character_sprites:
+                if check_connections(100, self.player, character):
+                    print("dialog")
     def run(self):
         while True:
             # event loop 
