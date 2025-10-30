@@ -2,7 +2,7 @@ from settings import *
 from game_data import  *
 from pytmx.util_pygame import load_pygame 
 from os.path import join
-from sprites import Sprite, AnimatedSprite, MonsterPatchSprite, BorderSprite, CollidableSprite
+from sprites import Sprite, AnimatedSprite, MonsterPatchSprite, BorderSprite, CollidableSprite, TransitionSprite
 from entites import Player, Character
 from groups import AllSprites
 from dialog import *
@@ -10,6 +10,7 @@ from dialog import *
 from support import *
 
 class Game:
+    #general stuff
     def __init__(self):
         pygame.init()
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -20,6 +21,7 @@ class Game:
         self.all_sprites = AllSprites() # this group will contain all the sprites, well all the visible ones atleast :)
         self.collision_sprites = pygame.sprite.Group()
         self.character_sprites = pygame.sprite.Group()
+        self.transition_sprites = pygame.sprite.Group() #for transition areas
 
 
         self.import_assets()
@@ -67,6 +69,14 @@ class Game:
             else:
                 CollidableSprite((obj.x,obj.y), obj.image, (self.all_sprites, self.collision_sprites))
 
+        
+        # transition objects
+        for obj in tmx_map.get_layer_by_name('Transition'):
+            TransitionSprite((obj.x, obj.y), (obj.width, obj.height), (obj.properties['target'], obj.properties['pos']), self.transition_sprites)
+
+
+        
+
         # collision Objects
         for obj in tmx_map.get_layer_by_name('Collisions'):
             BorderSprite((obj.x, obj.y), pygame.Surface((obj.width, obj.height)), self.collision_sprites)
@@ -97,6 +107,10 @@ class Game:
                         collision_sprites = self.collision_sprites,
                         radius = obj.properties['radius']) 
 
+        
+
+
+    #dialog system
     def input(self):
         if not self.dialog_tree:
             keys = pygame.key.get_just_pressed()
@@ -119,11 +133,18 @@ class Game:
         self.dialog_tree = None
         self.player.unblock()
 
+    #transition system
+    def transition_check(self):
+        sprites = [sprite for sprite in self.transition_sprites.sprites() if sprite.rect.colliderect(self.player.hitbox)]
+        if sprites:
+            self.player.block()
+
 
     def run(self):
         while True:
             # event loop 
             dt = self.clock.tick() / 1000 #dt will give the diff of current frame and the last frame
+            self.display_surface.fill("Black")
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -131,8 +152,8 @@ class Game:
 
             # game logic
             self.input()
+            self.transition_check()
             self.all_sprites.update(dt)
-            self.display_surface.fill("Black")
             self.all_sprites.draw(self.player)
             
 
