@@ -71,7 +71,8 @@ class Character(Entity):
         self.view_directions = character_data['directions']
 
         self.timers = {
-            'look around': Timer(1500, autostart = True, repeat = True, func = self.random_view_direction)
+            'look around': Timer(1500, autostart = True, repeat = True, func = self.random_view_direction),
+            'notice' : Timer(500, func =self.start_move)
         }
 
     def random_view_direction(self):
@@ -85,7 +86,7 @@ class Character(Entity):
         if check_connections(self.radius, self, self.player) and self.has_los() and not self.has_moved and not self.has_noticed:
             self.player.block()
             self.player.change_facing_direction(self.rect.center)
-            self.start_move()
+            self.timers['notice'].activate()
             self.can_rotate = False
             self.has_noticed = True
             self.player.noticed = True
@@ -108,6 +109,7 @@ class Character(Entity):
                 self.direction = vector()
                 self.has_moved = True
                 self.create_dialog(self)
+                self.plaeyr.noticed = False
 
     def update(self, dt):
         for timer in self.timers.values():
