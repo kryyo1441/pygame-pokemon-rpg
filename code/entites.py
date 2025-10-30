@@ -53,8 +53,12 @@ class Entity(pygame.sprite.Sprite):
         self.blocked = False
 
 class Character(Entity):
-    def __init__(self, pos, frames, groups, facing_direction):
+    def __init__(self, pos, frames, groups, facing_direction, character_data):
         super().__init__(pos, frames, groups, facing_direction) 
+        self.character_data = character_data
+
+    def get_dialog(self):
+        return self.character_data['dialog'][f'{'defeated' if self.character_data['defeated'] else 'default'}']
 
     def update(self, dt):
         self.animate(dt) 
