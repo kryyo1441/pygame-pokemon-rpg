@@ -61,7 +61,12 @@ class MonsterIndex:
             icon_rect = icon_surf.get_frect(center = item_rect.midleft + vector(45,0))
 
             if item_rect.colliderect(self.main_rect):  #removing the extra pokemon from the index
-               pygame.draw.rect(self.display_surface, bg_color, item_rect)
+               #check corner
+               if item_rect.collidepoint(self.main_rect.topleft):
+                   pygame.draw.rect(self.display_surface, bg_color, item_rect,0,0,12)
+               else:
+                   pygame.draw.rect(self.display_surface, bg_color, item_rect)
+               
                self.display_surface.blit(text_surf, text_rect)
                self.display_surface.blit(icon_surf, icon_rect)
 
@@ -71,7 +76,6 @@ class MonsterIndex:
         print(self.index)#to check index value
         #tint overlay
         self.display_surface.blit(self.tint_surf, (0,0))
-        pygame.draw.rect(self.display_surface, 'black' , self.main_rect) #display rectangle
         #display the list
         self.display_list()
         #display the main section
