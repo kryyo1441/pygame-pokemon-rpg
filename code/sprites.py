@@ -60,6 +60,7 @@ class MonsterSprite(pygame.sprite.Sprite):
         # 'frames' here is a dictionary: {'state': [frame1, frame2, ...]}
         self.frame_index, self.frames, self.state = 0, frames, 'idle' 
         self.animation_speed = ANIMATION_SPEED + uniform(-1 , 1)
+        self.z = BATTLE_LAYERS['monster']
 
         #sprite setup
         # Removed the redundant/misplaced 'super().__init__(groups)' call here.
@@ -79,6 +80,7 @@ class MonsterNameSprite(pygame.sprite.Sprite):
     def __init__(self, pos, monster_sprite, groups, font):
         super().__init__(groups)
         self.monster_sprite = monster_sprite
+        self.z = BATTLE_LAYERS['name']
 
         text_surf = font.render(monster_sprite.monster.name, False, COLORS['black'])
         padding = 10
@@ -95,6 +97,9 @@ class MonsterLevelSprite(pygame.sprite.Sprite):
         super().__init__(groups)
         self.monster_sprite = monster_sprite
         self.font = font
+        self.z = BATTLE_LAYERS['name']
+
+        
 
         self.image = pygame.Surface((60, 26))
         self.rect = self.image.get_rect(topleft = pos) if entity == 'player' else self.image.get_rect(topright = pos)
@@ -117,6 +122,8 @@ class MonsterStatsSprite(pygame.sprite.Sprite):
         self.image = pygame.Surface(size)
         self.rect = self.image.get_frect(midbottom = pos)
         self.font = font
+        self.z = BATTLE_LAYERS['overlay']
+
 
     def update(self, _):
         self.image.fill(COLORS['white'])

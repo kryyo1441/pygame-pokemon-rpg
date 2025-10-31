@@ -1,5 +1,6 @@
 from settings import * 
 from sprites import MonsterSprite, MonsterNameSprite , MonsterLevelSprite, MonsterStatsSprite
+from groups import BattleSprites
 
 class Battle:
     def __init__(self, player_monsters, opponent_monsters, monster_frames, bg_surf, fonts):
