@@ -93,7 +93,7 @@ class Battle:
            if index == self.indexes['general']:
                surf = self.monster_frame['ui'][f"{data_dict['icon']}_highlight"]
            else:
-               surf = self.monster_frame['ui'][data_dict['icon']]
+               surf = pygame.transform.grayscale(self.monster_frame['ui'][data_dict['icon']])#items which are not slected will be gray
            rect = surf.get_rect(center = self.current_monster.rect.midright + data_dict['pos'])
            self.display_surface.blit(surf, rect)
 
