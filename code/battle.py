@@ -71,7 +71,7 @@ class Battle:
                 case 'general':
                     limiter = len(BATTLE_CHOICES['full'])
                 case 'attacks':
-                    limiter = len(self.current_monster.monster.get_abilities())
+                    limiter = len(self.current_monster.monster.get_abilities(all = False))
                 
             if keys[pygame.K_DOWN]:
                 self.indexes[self.selection_mode] = (self.indexes[self.selection_mode] + 1) % limiter
@@ -130,7 +130,7 @@ class Battle:
             self.display_surface.blit(surf, rect)
 
     def draw_attacks(self):
-        abilities = self.current_monster.monster.get_abilities()
+        abilities = self.current_monster.monster.get_abilities(all =  False)
         width, height = 150, 200
         visible_attacks = 4
         item_height = height / visible_attacks
