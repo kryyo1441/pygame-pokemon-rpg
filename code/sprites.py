@@ -25,13 +25,14 @@ class MonsterPatchSprite(Sprite):
         self.y_sort -= 40
 
 class AnimatedSprite(Sprite):
-    def __init__(self, pos, frames, groups,  z=WORLD_LAYERS["main"]):
+    def __init__(self, pos, frames, groups, z=WORLD_LAYERS["main"]):
         self.frame_index, self.frames = 0, frames
         super().__init__(pos, frames[self.frame_index], groups, z)
 
 
     def animate(self, dt):
         self.frame_index += ANIMATION_SPEED * dt
+        # The use of 'self.frames' here implies a list of surfaces for animation
         self.image = self.frames[int(self.frame_index  % len(self.frames))]
 
     def update(self, dt):
@@ -46,15 +47,27 @@ class TransitionSprite(Sprite):
 # battle sprites
 class MonsterSprite(pygame.sprite.Sprite):
     def __init__(self, pos, frames, groups, monster, index, pos_index, entity):
+        # ✅ FIX: Call the parent constructor first to ensure the sprite is added to its groups
+        # (e.g., self.battle_sprites) before it is used.
         super().__init__(groups)
+        
         self.index = index
         self.pos_index = pos_index
         self.entity = entity
         self.monster = monster
-        self.frame_index, self.frames, self.state = 0, frames, 'idle'
-
+        # 'frames' here is a dictionary: {'state': [frame1, frame2, ...]}
+        self.frame_index, self.frames, self.state = 0, frames, 'idle' 
 
         #sprite setup
-        super().__init__(groups)
+        # Removed the redundant/misplaced 'super().__init__(groups)' call here.
         self.image = self.frames[self.state][self.frame_index]
         self.rect = self.image.get_frect(center = pos)
+
+    def animate(self, dt):
+        self.frame_index += ANIMATION_SPEED * dt
+        # The animation uses the frame list corresponding to the current 'self.state'
+        self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
+
+    def update(self, dt):
+        # This method is correctly called by the group.update() in battle.py
+        self.animate(dt)
