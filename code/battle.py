@@ -90,8 +90,8 @@ class Battle:
 
     def draw_general(self):
        for index, (option, data_dict) in enumerate(BATTLE_CHOICES['full'].items()):
-           surf = self.monster_frames['ui'][data_dict['icon']]
-           rect = self.get_frect(center = self.current_monster.rect.midright + data_dict['pos'])
+           surf = self.monster_frame['ui'][data_dict['icon']]
+           rect = surf.get_rect(center = self.current_monster.rect.midright + data_dict['pos'])
            self.display_surface.blit(surf, rect)
 
 
