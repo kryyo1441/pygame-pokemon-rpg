@@ -3,6 +3,7 @@ from sprites import MonsterSprite, MonsterNameSprite , MonsterLevelSprite, Monst
 from groups import BattleSprites
 
 class Battle:
+    #main
     def __init__(self, player_monsters, opponent_monsters, monster_frames, bg_surf, fonts):
         #genral
         self.display_surface = pygame.display.get_surface()
@@ -63,7 +64,32 @@ class Battle:
         MonsterLevelSprite(entity, level_pos, monster_sprite, self.battle_sprites, self.fonts['small'])
         MonsterStatsSprite(monster_sprite.rect.midbottom + vector(0, 20), monster_sprite, (150, 48), self.battle_sprites, self.fonts['small'])
 
+    def input(self):
+        if self.selection_mode and self.current_monster:
+            keys = pygame.key.get_just_pressed()
 
+            match self.selection_mode:
+                case 'general': limiter = len(BATTLE_CHOICES['full'])
+				
+            if keys[pygame.K_DOWN]:
+                self.indexes[self.selection_mode] = (self.indexes[self.selection_mode] + 1) % limiter
+            if keys[pygame.K_UP]:
+                self.indexes[self.selection_mode] = (self.indexes[self.selection_mode] - 1) % limiter
+            if keys[pygame.K_SPACE]:
+                if self.selection_mode == 'general':
+                    if self.indexes['general'] == 0:
+                        print(attack)
+                    
+                    if self.indexes['general'] == 1:
+                        self.update_all_monsters('resume')
+                        self.current_monster, self.selection_mode = None, None
+                        self.indexes['general'] = 0
+                    
+                    if self.indexes['general'] == 2:
+                        print(switch)
+                    
+                    if self.indexes['general'] == 3:
+                        print(catch)     
 
     #battle system
     def check_active(self):
@@ -104,6 +130,7 @@ class Battle:
         
     def update(self, dt):
         #updates
+        self.input()
         self.battle_sprites.update(dt)
         self.check_active()
 
