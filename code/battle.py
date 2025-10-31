@@ -160,7 +160,10 @@ class Battle:
                 if selected:
                     if text_bg_rect.collidepoint(bg_rect.topleft):
                         pygame.draw.rect(self.display_surface, COLORS['dark white'], text_bg_rect,0,0,5,5)
-
+                    elif text_bg_rect.collidepoint(bg_rect.midbottom + vector(0,-1)):
+                        pygame.draw.rect(self.display_surface, COLORS['dark white'], text_bg_rect,0,0,0,0,5,5)
+                    else:
+                        pygame.draw.rect(self.display_surface, COLORS['dark white'], text_bg_rect)
 
                 self.display_surface.blit(text_surf, text_rect)
 
