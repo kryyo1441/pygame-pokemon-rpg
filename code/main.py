@@ -30,6 +30,13 @@ class Game:
 			6: Monster('Jacana', 10)
         }
 
+        self.dummy_monsters = {
+            0: Monster('Atrox', 12),
+			1: Monster('Sparchu', 15),
+			2: Monster('Gulfin', 19),
+			3: Monster('Jacana', 2)
+        }
+
 
 
         #groups
@@ -225,6 +232,7 @@ class Game:
             #overlays repeat
             if self.dialog_tree: self.dialog_tree.update()
             if self.index_open: self.monster_index.update(dt)
+            if self.battle: self.battle.update(dt)
 
             self.tint_screen(dt)    
             pygame.display.update()
