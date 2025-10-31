@@ -78,7 +78,7 @@ class Battle:
             if keys[pygame.K_SPACE]:
                 if self.selection_mode == 'general':
                     if self.indexes['general'] == 0:
-                        print(attack)
+                        self.selection_mode = 'attacks'
                     
                     if self.indexes['general'] == 1:
                         self.update_all_monsters('resume')
@@ -86,8 +86,8 @@ class Battle:
                         self.indexes['general'] = 0
                     
                     if self.indexes['general'] == 2:
-                        print(switch)
-                    
+                        self.selection_mode = 'switch'
+
                     if self.indexes['general'] == 3:
                         print(catch)     
 
@@ -113,6 +113,10 @@ class Battle:
        if self.current_monster:
            if self.selection_mode == 'general':
                self.draw_general()
+           if self.selection_mode == 'attacks':
+                self.draw_attacks()
+           if self.selection_mode == 'switch':
+                self.draw_switch()
 
     def draw_general(self):
        for index, (option, data_dict) in enumerate(BATTLE_CHOICES['full'].items()):
@@ -123,7 +127,19 @@ class Battle:
            rect = surf.get_rect(center = self.current_monster.rect.midright + data_dict['pos'])
            self.display_surface.blit(surf, rect)
 
+    def draw_attacks(self):
+        abilities = self.current_monster.monster.get_abilities()
+        width, height = 150, 200
+        visible_attacks = 4
+        item_height = height / visible_attacks
+        v_offset = 0
 
+        #bg
+        bg_rect = pygame.FRect((0, 0),(width, height)).move_to(midleft = self.current_monster.rect.midright + vector(20,0))
+        pygame.draw.rect(self.display_surface, COLORS['white'], bg_rect,0, 5)
+
+    def draw_switch(self):
+        pass
 
 
 # MonsterStatsSprite
