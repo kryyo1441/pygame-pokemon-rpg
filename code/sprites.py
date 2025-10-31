@@ -1,6 +1,7 @@
 from settings import *
 from random import uniform
 from support import draw_bar
+from timer import Timer
 
 class Sprite(pygame.sprite.Sprite):
     def __init__(self, pos, surf, groups, z = WORLD_LAYERS["main"]):
@@ -68,6 +69,11 @@ class MonsterSprite(pygame.sprite.Sprite):
         self.image = self.frames[self.state][self.frame_index]
         self.rect = self.image.get_frect(center = pos)
 
+        #timers
+        self.timers ={
+            'remove highlight': Timer(500, func = lambda: self.set_highlight(False))
+        }
+
     def animate(self, dt):
         self.frame_index += ANIMATION_SPEED * dt
         self.adjusted_frame_index = int(self.frame_index) % len(self.frames[self.state])
@@ -81,8 +87,12 @@ class MonsterSprite(pygame.sprite.Sprite):
 
     def set_highlight(self, value):
         self.highlight = value
+        if value:
+            self.timers['remove highlight'].activate()
 
     def update(self, dt):
+        for timer in self.timers.values():
+            timer.update()
         # This method is correctly called by the group.update() in battle.py
         self.animate(dt)
         self.monster.update(dt)
