@@ -70,6 +70,7 @@ class Battle:
 
             match self.selection_mode:
                 case 'general': limiter = len(BATTLE_CHOICES['full'])
+                case 'attacks': limiter = len(self.current_monster.monster.get_abilities())
 				
             if keys[pygame.K_DOWN]:
                 self.indexes[self.selection_mode] = (self.indexes[self.selection_mode] + 1) % limiter
@@ -137,6 +138,20 @@ class Battle:
         #bg
         bg_rect = pygame.FRect((0, 0),(width, height)).move_to(midleft = self.current_monster.rect.midright + vector(20,0))
         pygame.draw.rect(self.display_surface, COLORS['white'], bg_rect,0, 5)
+
+        for index, ability in enumerate(abilities):
+            selected = index == self.indexes['attacks']
+
+			# text 
+
+            text_color = COLORS['light']
+            text_surf = self.fonts['regular'].render(ability, False, text_color)
+            # rect 
+            text_rect = text_surf.get_frect(center = bg_rect.midtop + vector(0, item_height / 2 + index * item_height + v_offset))
+			#text_bg_rect = pygame.FRect((0,0), (width, item_height)).move_to(center = text_rect.center)
+
+			# draw
+            self.display_surface.blit(text_surf, text_rect)
 
     def draw_switch(self):
         pass
