@@ -1,5 +1,5 @@
 from settings import * # Assuming this imports pygame
-from sprites import MonsterPatchSprite
+from sprites import MonsterSprite
 
 class Battle:
     def __init__(self, player_monsters, opponent_monsters, monster_frames, bg_surf, fonts):
@@ -26,9 +26,11 @@ class Battle:
     def create_monster(self, monster, index, pos_index, entity):
         frames = self.monster_frame['monsters'][monster.name]
         if entity == 'player':
-            pos = list(BATTLE_POSITIONS['left'].values)[pos_index]
+            pos = list(BATTLE_POSITIONS['left'].values())[pos_index]
             groups = (self.battle_sprites, self.player_sprites)
-        
+        elif entity == 'opponent':
+            pos = list(BATTLE_POSITIONS['right'].values())[pos_index]
+            groups = (self.battle_sprites, self.opponent_sprites)
 
         MonsterSprite(pos, frames, groups, monster, index, pos_index, entity)
         

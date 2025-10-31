@@ -20,7 +20,7 @@ class Monster:
         self.evolution = MONSTER_DATA[self.name]['evolve']
 
     def __repr__(self):
-        return f'monster': {self.name}, lvl: {self.level}
+        return f'monster: {self.name}, lvl: {self.level}'
     
     def get_stat(self, stat):
         return self.base_stats[stat] * self.level
