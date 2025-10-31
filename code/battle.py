@@ -1,5 +1,5 @@
-from settings import * # You should ensure 'MonsterSprite' is imported from sprites.py or wherever you defined it.
-from sprites import MonsterSprite # Assuming this is the correct import
+from settings import * 
+from sprites import MonsterSprite, MonsterNameSprite 
 
 class Battle:
     def __init__(self, player_monsters, opponent_monsters, monster_frames, bg_surf, fonts):
@@ -36,7 +36,14 @@ class Battle:
             groups = (self.battle_sprites, self.opponent_sprites)
         # ----------------------------------------------------
 
-        MonsterSprite(pos, frames, groups, monster, index, pos_index, entity)
+        monster_sprite = MonsterSprite(pos, frames, groups, monster, index, pos_index, entity)
+
+        # ui
+        name_pos = monster_sprite.rect.midleft + vector(16, -70)
+        MonsterNameSprite(name_pos, monster_sprite, self.battle_sprites, self.fonts['regular'])
+
+        # MonsterLevelSprite
+        # MonsterStatsSprite
         
     def update(self, dt):
         self.display_surface.blit(self.bg_surf, (0,0))
