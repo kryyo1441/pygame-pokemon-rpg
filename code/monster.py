@@ -1,5 +1,5 @@
 from game_data import MONSTER_DATA
-
+from random import randint
 
 class Monster:
     def __init__(self, name, level):
