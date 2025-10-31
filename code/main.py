@@ -85,6 +85,7 @@ class Game:
             'small': pygame.font.Font(join('..', 'graphics', 'fonts', 'PixeloidSans.ttf'), 14),
             'bold': pygame.font.Font(join('..', 'graphics', 'fonts', 'dogicapixelbold.otf'), 20)
         }
+        self.bg_frames = import_folder_dict('..', 'graphics', 'backgrounds')
 
     def setup(self, tmx_map, player_start_pos):
         #clear the map
