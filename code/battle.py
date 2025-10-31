@@ -1,6 +1,7 @@
 from settings import * 
 from sprites import MonsterSprite, MonsterNameSprite , MonsterLevelSprite, MonsterStatsSprite, MonsterOutlineSprite
 from groups import BattleSprites
+from game_data import ATTACK_DATA
 
 class Battle:
     #main
@@ -143,15 +144,21 @@ class Battle:
             selected = index == self.indexes['attacks']
 
 			# text 
-
-            text_color = COLORS['light']
+            if selected:
+                element = ATTACK_DATA[ability]['element']
+                text_color= COLORS[element] if element!= 'normal' else COLORS['black']
+            else:
+                text_color = COLORS['light']
             text_surf = self.fonts['regular'].render(ability, False, text_color)
+           
             # rect 
             text_rect = text_surf.get_frect(center = bg_rect.midtop + vector(0, item_height / 2 + index * item_height + v_offset))
-			#text_bg_rect = pygame.FRect((0,0), (width, item_height)).move_to(center = text_rect.center)
+            text_bg_rect = pygame.FRect((0,0), (width, item_height)).move_to(center = text_rect.center)
 
 			# draw
+            pygame.draw.rect(self.display_surface, 'red', text_bg_rect)
             self.display_surface.blit(text_surf, text_rect)
+           
 
     def draw_switch(self):
         pass
