@@ -76,6 +76,7 @@ class MonsterSprite(pygame.sprite.Sprite):
 class MonsterNameSprite(pygame.sprite.Sprite):
     def __init__(self, pos, monster_sprite, groups, font):
         super().__init__(groups)
+        self.monster_sprite = monster_sprite
 
         text_surf = font.render(monster_sprite.monster.name, False, COLORS['black'])
         padding = 10
@@ -84,3 +85,19 @@ class MonsterNameSprite(pygame.sprite.Sprite):
         self.image.fill(COLORS['white'])
         self.image.blit(text_surf, (padding,padding))
         self.rect = self.image.get_rect(midtop = pos)
+
+class MonsterLevelSprite(pygame.sprite.Sprite):
+    def __init__(self, entity, pos, monster_sprite, groups, font):
+        super().__init__(groups)
+        self.monster_sprite = monster_sprite
+        self.font = font
+
+        self.image = pygame.Surface((60, 26))
+        self.rect = self.image.get_rect(topleft = pos) if entity == 'player' else self.image.get_rect(topright = pos)
+
+    def update(self, _):
+        self.image.fill(COLORS['white'])
+
+        text_surf = self.font.render(f'Lvl {self.monster_sprite.monster.level}', False, COLORS['black'])
+        text_rect = text_surf.get_rect(center = (self.rect.width / 2, self.rect.height / 2))
+        self.image.blit(text_surf, text_rect)
