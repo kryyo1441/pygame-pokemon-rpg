@@ -70,8 +70,14 @@ class MonsterSprite(pygame.sprite.Sprite):
 
     def animate(self, dt):
         self.frame_index += ANIMATION_SPEED * dt
+        self.adjusted_frame_index = int(self.frame_index) % len(self.frames[self.state])
         # The animation uses the frame list corresponding to the current 'self.state'
-        self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
+        self.image = self.frames[self.state][self.adjusted_frame_index]
+
+        if self.highlight:
+            white_surf = pygame.mask.from_surface(self.image).to_surface()
+            white_surf.set_colorkey('black')
+            self.image = white_surf
 
     def set_highlight(self, value):
         self.highlight = value
@@ -92,7 +98,7 @@ class MonsterOutlineSprite(pygame.sprite.Sprite):
         self.rect = self.image.get_frect(center = self.monster_sprite.rect.center)
 
     def update(self, _):
-        self.image = self.frames[self.monster_sprite.state][int(self.monster_sprite.frame_index) % len(self.frames[self.monster_sprite.state])]
+        self.image = self.frames[self.monster_sprite.state][self.monster_sprite.adjusted_frame_index]
 
 
 class MonsterNameSprite(pygame.sprite.Sprite):
