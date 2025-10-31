@@ -7,6 +7,7 @@ from entites import Player, Character
 from groups import AllSprites
 from dialog import *
 from monster_index import MonsterIndex
+from battle import Battle
 
 from support import *
 from monster import Monster #import monster file
@@ -61,7 +62,7 @@ class Game:
         self.dialog_tree = None
         self.monster_index = MonsterIndex(self.player_monsters, self.fonts, self.monster_frames)
         self.index_open = False
-        self.battle = None
+        self.battle = Battle(self.player_monsters, self.dummy_monsters, self.monster_frames, self.bg_frames['forest'], self.fonts)
 
     def import_assets(self):
         self.tmx_maps = tmx_importer('..','data','maps')
@@ -160,7 +161,7 @@ class Game:
 
     #dialog system
     def input(self):
-        if not self.dialog_tree:
+        if not self.dialog_tree and not self.battle:
             keys = pygame.key.get_just_pressed()
             if keys[pygame.K_SPACE]:
                 for character in self.character_sprites:
@@ -233,8 +234,8 @@ class Game:
 
             #overlays repeat
             if self.dialog_tree: self.dialog_tree.update()
-            if self.index_open: self.monster_index.update(dt)
-            if self.battle: self.battle.update(dt)
+            if self.index_open:  self.monster_index.update(dt)
+            if self.battle:      self.battle.update(dt)
 
             self.tint_screen(dt)    
             pygame.display.update()

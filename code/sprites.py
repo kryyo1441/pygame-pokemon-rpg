@@ -42,3 +42,19 @@ class TransitionSprite(Sprite):
         surf = pygame.Surface(size)
         super().__init__(pos, surf, groups)
         self.target = target
+
+# battle sprites
+class MonsterSprite(pygame.sprite.Sprite):
+    def __init__(self, pos, frames, groups, monster, index, pos_index, entity):
+        super().__init__(groups)
+        self.index = index
+        self.pos_index = pos_index
+        self.entity = entity
+        self.monster = monster
+        self.frame_index, self.frames, self.state = 0, frames, 'idle'
+
+
+        #sprite setup
+        super().__init__(groups)
+        self.image = self.frames[self.state][self.frame_index]
+        self.rect = self.image.get_frect(center = pos)
