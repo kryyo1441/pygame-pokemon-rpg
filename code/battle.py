@@ -1,5 +1,5 @@
-from settings import * # Assuming this imports pygame
-from sprites import MonsterSprite
+from settings import * # You should ensure 'MonsterSprite' is imported from sprites.py or wherever you defined it.
+from sprites import MonsterSprite # Assuming this is the correct import
 
 class Battle:
     def __init__(self, player_monsters, opponent_monsters, monster_frames, bg_surf, fonts):
@@ -25,19 +25,19 @@ class Battle:
 
     def create_monster(self, monster, index, pos_index, entity):
         frames = self.monster_frame['monsters'][monster.name]
+        
+        # --- FIX: ADDED OPPONENT LOGIC & FIXED .values() ---
         if entity == 'player':
             pos = list(BATTLE_POSITIONS['left'].values())[pos_index]
             groups = (self.battle_sprites, self.player_sprites)
-        elif entity == 'opponent':
+            frames = {state: [pygame.transform.flip(frame, True, False) for frame in frames] for state, frames in frames.items()}
+        else: # assuming 'opponent'
             pos = list(BATTLE_POSITIONS['right'].values())[pos_index]
             groups = (self.battle_sprites, self.opponent_sprites)
+        # ----------------------------------------------------
 
         MonsterSprite(pos, frames, groups, monster, index, pos_index, entity)
         
-        
-
-    # FIX 2: Move the update method out of __init__ to be a proper class method
     def update(self, dt):
-        
         self.display_surface.blit(self.bg_surf, (0,0))
         self.battle_sprites.draw(self.display_surface)
