@@ -75,6 +75,7 @@ class MonsterSprite(pygame.sprite.Sprite):
     def update(self, dt):
         # This method is correctly called by the group.update() in battle.py
         self.animate(dt)
+        self.monster.update(dt)
 
 class MonsterNameSprite(pygame.sprite.Sprite):
     def __init__(self, pos, monster_sprite, groups, font):
