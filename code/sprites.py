@@ -1,5 +1,5 @@
 from settings import *
-
+from random import uniform
 class Sprite(pygame.sprite.Sprite):
     def __init__(self, pos, surf, groups, z = WORLD_LAYERS["main"]):
         super().__init__(groups)
@@ -57,6 +57,7 @@ class MonsterSprite(pygame.sprite.Sprite):
         self.monster = monster
         # 'frames' here is a dictionary: {'state': [frame1, frame2, ...]}
         self.frame_index, self.frames, self.state = 0, frames, 'idle' 
+        self.animation_speed = ANIMATION_SPEED + uniform(-1 , 1)
 
         #sprite setup
         # Removed the redundant/misplaced 'super().__init__(groups)' call here.
