@@ -61,6 +61,7 @@ class Game:
         self.dialog_tree = None
         self.monster_index = MonsterIndex(self.player_monsters, self.fonts, self.monster_frames)
         self.index_open = False
+        self.battle = None
 
     def import_assets(self):
         self.tmx_maps = tmx_importer('..','data','maps')
