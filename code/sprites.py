@@ -71,7 +71,7 @@ class MonsterSprite(pygame.sprite.Sprite):
 
         #timers
         self.timers ={
-            'remove highlight': Timer(500, func = lambda: self.set_highlight(False))
+            'remove highlight': Timer(300, func = lambda: self.set_highlight(False))
         }
 
     def animate(self, dt):
