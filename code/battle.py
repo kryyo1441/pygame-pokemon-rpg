@@ -1,5 +1,5 @@
 from settings import * 
-from sprites import MonsterSprite, MonsterNameSprite , MonsterLevelSprite
+from sprites import MonsterSprite, MonsterNameSprite , MonsterLevelSprite, MonsterStatsSprite
 
 class Battle:
     def __init__(self, player_monsters, opponent_monsters, monster_frames, bg_surf, fonts):
@@ -43,6 +43,7 @@ class Battle:
         name_sprite = MonsterNameSprite(name_pos, monster_sprite, self.battle_sprites, self.fonts['regular'])
         level_pos = name_sprite.rect.bottomleft if entity == 'player' else name_sprite.rect.bottomright
         MonsterLevelSprite(entity, level_pos, monster_sprite, self.battle_sprites, self.fonts['small'])
+        MonsterStatsSprite(monster_sprite.rect.midbottom + vector(0, 20), monster_sprite, (150, 48), self.battle_sprites, self.fonts['small'])
 
 # MonsterStatsSprite
         
