@@ -39,7 +39,7 @@ class Battle:
         monster_sprite = MonsterSprite(pos, frames, groups, monster, index, pos_index, entity)
 
         # ui
-        name_pos = monster_sprite.rect.midleft + vector(16, -70)
+        name_pos = monster_sprite.rect.midleft + vector(16, -70) if entity == 'player' else monster_sprite.rect.midright + vector(-40, -70)
         MonsterNameSprite(name_pos, monster_sprite, self.battle_sprites, self.fonts['regular'])
 
         # MonsterLevelSprite

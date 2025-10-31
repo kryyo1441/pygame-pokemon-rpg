@@ -78,7 +78,9 @@ class MonsterNameSprite(pygame.sprite.Sprite):
         super().__init__(groups)
 
         text_surf = font.render(monster_sprite.monster.name, False, COLORS['black'])
-        padding = 20
+        padding = 10
 
         self.image = pygame.Surface((text_surf.get_width() + 2 * padding, text_surf.get_height() + 2 * padding))
+        self.image.fill(COLORS['white'])
+        self.image.blit(text_surf, (padding,padding))
         self.rect = self.image.get_rect(midtop = pos)
