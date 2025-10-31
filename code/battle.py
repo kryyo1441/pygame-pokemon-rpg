@@ -19,7 +19,6 @@ class Battle:
         #control
         self.current_monster = None
         self.selection_mode  = None
-        self.selected_attack = None
         self.selection_side  = 'player'
         self.indexes = {
 			'general': 0,
@@ -86,13 +85,14 @@ class Battle:
 #ui
     def draw_ui(self):
        if self.current_monster:
-              if self.selection_mode == 'general':
-                self.draw_general()
+           if self.selection_mode == 'general':
+               self.draw_general()
 
     def draw_general(self):
-       for key, data in BATTLE_CHOICES.items():
-           # Draw each choice option
-           print(data)
+       for index, (option, data_dict) in enumerate(BATTLE_CHOICES['full'].items()):
+           surf = self.monster_frames['ui'][data_dict['icon']]
+           rect = self.get_frect(center = self.current_monster.rect.midright + data_dict['pos'])
+           self.display_surface.blit(surf, rect)
 
 
 
