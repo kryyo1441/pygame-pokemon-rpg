@@ -2,6 +2,7 @@ from settings import *
 from support import check_connections
 from timer import Timer 
 from random import choice
+# Assuming vector is imported/defined elsewhere, e.g., from pygame.math import Vector2 as vector
 
 class Entity(pygame.sprite.Sprite):
     def __init__(self, pos, frames, groups, facing_direction):
@@ -47,7 +48,6 @@ class Entity(pygame.sprite.Sprite):
             self.facing_direction = "down" if relation.y > 0 else "up"
 
 
-
     def block(self):
         self.blocked = True
         self.direction = vector(0,0)
@@ -56,13 +56,14 @@ class Entity(pygame.sprite.Sprite):
         self.blocked = False
 
 class Character(Entity):
-    def __init__(self, pos, frames, groups, facing_direction, character_data, player, create_dialog, collision_sprites, radius):
+    def __init__(self, pos, frames, groups, facing_direction, character_data, player, create_dialog, collision_sprites, radius, nurse):
         super().__init__(pos, frames, groups, facing_direction) 
         self.character_data = character_data
         self.player = player
         self.create_dialog = create_dialog
         self.collision_rects = [sprite.rect for sprite in collision_sprites if sprite is not self]
-
+        self.nurse = nurse
+        
         # movement
         self.has_moved = False
         self.can_rotate = True
@@ -117,13 +118,14 @@ class Character(Entity):
         self.animate(dt)
         if self.character_data['look_around']:
             self.raycast()
-            self.move(dt)  # Add move call to actually move the character
+            self.move(dt)
 
 class Player(Entity):
     def __init__(self, pos, frames, groups, facing_direction, collision_sprites):
         super().__init__(pos, frames, groups, facing_direction)
         self.collision_sprites = collision_sprites
         self.noticed = False
+    
     def input(self):
         keys = pygame.key.get_pressed()
         input_vector = vector() 
@@ -139,32 +141,36 @@ class Player(Entity):
 
     def move(self, dt):
         # compute movement as a Vector2 and apply to rect coordinates to avoid tuple/Vector2 addition errors
+        if self.direction.magnitude() != 0:
+            self.direction = self.direction.normalize()
+            
         self.rect.centerx += self.direction.x * self.speed * dt
-        #For Collision Moving The Collision With Object/Entity
         self.hitbox.centerx = self.rect.centerx
         self.collisions('horizontal')
 
         self.rect.centery += self.direction.y * self.speed * dt
-        #For Collision Moving The Collision With Object/Entity
         self.hitbox.centery = self.rect.centery
         self.collisions('vertical')
+        self.y_sort = self.rect.centery
 
 
     def collisions(self, axis):
         for sprite in self.collision_sprites:
             if sprite.hitbox.colliderect(self.hitbox):
                 if axis == 'horizontal':
-                    if self.direction.x > 0:
+                    if self.direction.x > 0: # moving right
                         self.hitbox.right = sprite.hitbox.left
-                        if self.direction.x > 0:
-                            self.rect.centerx = self.hitbox.centerx
-                    if self.direction.x < 0:
+                    if self.direction.x < 0: # moving left
                         self.hitbox.left = sprite.hitbox.right
-                else:
-                    if self.direction.y > 0:
+                    # --- FIX: Update self.rect position to match the corrected hitbox position ---
+                    self.rect.centerx = self.hitbox.centerx
+                else: # vertical
+                    if self.direction.y > 0: # moving down
                         self.hitbox.bottom = sprite.hitbox.top
-                    if self.direction.y < 0:
+                    if self.direction.y < 0: # moving up
                         self.hitbox.top = sprite.hitbox.bottom
+                    
+                    # Corrected: This part was mostly fine, just make sure to update rect
                     self.rect.centery = self.hitbox.centery
 
     def update(self, dt):

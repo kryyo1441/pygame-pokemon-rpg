@@ -63,7 +63,8 @@ class Game:
         self.dialog_tree = None
         self.monster_index = MonsterIndex(self.player_monsters, self.fonts, self.monster_frames)
         self.index_open = False
-        self.battle = Battle(self.player_monsters, self.dummy_monsters, self.monster_frames, self.bg_frames['forest'], self.fonts)
+        #self.battle = Battle(self.player_monsters, self.dummy_monsters, self.monster_frames, self.bg_frames['forest'], self.fonts)
+        self.battle = None
 
     def import_assets(self):
         self.tmx_maps = tmx_importer('..','data','maps')
@@ -157,7 +158,8 @@ class Game:
                         player = self.player,
                         create_dialog = self.create_dialog,
                         collision_sprites = self.collision_sprites,
-                        radius = obj.properties['radius']) 
+                        radius = obj.properties['radius'],
+                        nurse = obj.properties['character_id'] == 'Nurse')
 
         
 
@@ -187,6 +189,11 @@ class Game:
     
     def end_dialog(self, character):
         self.dialog_tree = None
+        if character.nurse:
+            for monster in self.player_monsters.values():
+                monster.health = monster.get_stat('max_health')
+                monster.energy = monster.get_stat('max_energy')
+
         self.player.unblock()
 
     #transition system
