@@ -16,7 +16,7 @@ class Monster:
         
 
        #experience
-        self.xp = randint(0,1000)
+        self.xp = 0
         self.level_up = self.level * 150
         self.evolution = MONSTER_DATA[self.name]['evolve']
 
@@ -53,6 +53,9 @@ class Monster:
 
     def get_base_damage(self, attack):
         return self.get_stat('attack') * ATTACK_DATA[attack]['amount']
+    
+    def update_xp(self, amount):
+        self.xp += amount
 
     #update methods
     def update(self, dt):
