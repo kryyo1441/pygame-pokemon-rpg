@@ -13,7 +13,7 @@ class Monster:
         self.energy = self.base_stats['max_energy'] * self.level    
         self.initiative = 0
         self.abilities = MONSTER_DATA[name]['abilities']
-        
+        self.defending = False
 
        #experience
         self.xp = 0
@@ -61,7 +61,7 @@ class Monster:
             self.level += 1
             self.xp = amount - (self.level_up - self.xp)
             self.level_up = self.level * 150
-            
+
     #update methods
     def update(self, dt):
         if not self.paused:
