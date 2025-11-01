@@ -270,12 +270,19 @@ class Game:
     def end_battle(self, character):
         self.transition_target = 'level' 
         self.tint_mode = 'tint'
-        if character:
+        
+        # Check if all player's monsters are defeated
+        all_defeated = True
+        for monster in self.player_monsters.values():
+            if monster.health > 0:
+                all_defeated = False
+                break
+        
+        if all_defeated:
+            self.game_over = True
+        elif character:  # Only mark trainer as defeated if player won
             character.character_data['defeated'] = True
             self.create_dialog(character)
-        
-        # Check for game over after each battle
-        self.check_game_over()
 
             
     def start_game(self):

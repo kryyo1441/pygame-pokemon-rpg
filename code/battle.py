@@ -81,20 +81,39 @@ class Battle:
         if self.selection_mode and self.current_monster:
             keys = pygame.key.get_just_pressed()
 
+            # Determine available options and if there are any valid choices
             match self.selection_mode:
                 case 'general':
                     limiter = len(BATTLE_CHOICES['full'])
                 case 'attacks':
-                    limiter = len(self.current_monster.monster.get_abilities(all=False))
+                    abilities = self.current_monster.monster.get_abilities(all=False)
+                    limiter = len(abilities)
+                    if limiter == 0:  # No attacks available
+                        self.selection_mode = 'general'
+                        return
                 case 'switch':
+                    if not hasattr(self, 'available_monsters'):
+                        self.selection_mode = 'general'
+                        return
                     limiter = len(self.available_monsters)
+                    if limiter == 0:  # No monsters to switch to
+                        self.selection_mode = 'general'
+                        return
                 case 'target':
-                    limiter = len(self.opponent_sprites) if self.selection_side == 'opponent' else len(self.player_sprites)
-
-            if keys[pygame.K_DOWN]:
-                self.indexes[self.selection_mode] = (self.indexes[self.selection_mode] + 1) % limiter
-            if keys[pygame.K_UP]:
-                self.indexes[self.selection_mode] = (self.indexes[self.selection_mode] - 1) % limiter
+                    sprite_group = self.opponent_sprites if self.selection_side == 'opponent' else self.player_sprites
+                    limiter = len(sprite_group)
+                    if limiter == 0:  # No valid targets
+                        self.selection_mode = 'general'
+                        return
+                case _:
+                    limiter = 0
+            
+            # Only process input if we have valid options
+            if limiter > 0:
+                if keys[pygame.K_DOWN]:
+                    self.indexes[self.selection_mode] = (self.indexes[self.selection_mode] + 1) % limiter
+                if keys[pygame.K_UP]:
+                    self.indexes[self.selection_mode] = (self.indexes[self.selection_mode] - 1) % limiter
 
             if keys[pygame.K_SPACE]:
                 if self.selection_mode == 'switch':
@@ -243,9 +262,9 @@ class Battle:
                 monster.initiative = 0
 
 		# player has been defeated 
-        if len(self.player_sprites) == 0:
-            pygame.quit()
-            exit()
+        if len(self.player_sprites) == 0 and not self.battle_over:
+            self.battle_over = True
+            self.end_battle(None)  # Pass None to indicate player lost
     
     # ui
     def draw_ui(self):

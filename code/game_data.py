@@ -284,7 +284,7 @@ MONSTER_DATA = {
 		'abilities': {0: 'scratch', 5: 'fire', 15: 'battlecry', 26:'explosion'},
 		'evolve': ('Charmadillo', 33)},
 	'Charmadillo': {
-		'stats': {'element': 'fire', 'max_health': 29, 'max_energy': 12, 'attack': 4, 'defense': 17, 'recovery': 1.35, 'speed': 1.1},
+		'stats': {'element': 'fire', 'max_health': 1, 'max_energy': 12, 'attack': 4, 'defense': 17, 'recovery': 1.35, 'speed': 1.1},
 		'abilities': {0: 'scratch', 5: 'fire', 15: 'battlecry', 26:'explosion', 45: 'annihilate'},
 		'evolve': None},
 	'Finsta': {
@@ -324,7 +324,7 @@ MONSTER_DATA = {
 		'abilities': {0: 'scratch', 5: 'spark', 15: 'burn', 20: 'explosion', 25: 'heal'},
 		'evolve': None},
 	'Friolera': {
-		'stats': {'element': 'water', 'max_health': 13, 'max_energy': 20, 'attack': 4, 'defense': 6, 'recovery': 1.3, 'speed': 2},
+		'stats': {'element': 'water', 'max_health': 1, 'max_energy': 20, 'attack': 4, 'defense': 6, 'recovery': 1.3, 'speed': 2},
 		'abilities': {0: 'scratch', 5: 'spark', 15: 'splash', 20: 'ice', 25: 'heal'},
 		'evolve': None},
 }
