@@ -30,6 +30,8 @@ class Game:
 			5: Monster('Gulfin', 9),
 			6: Monster('Jacana', 10)
         }
+        for monster in self.player_monsters.values():
+            monster.health *= 0.5
 
         self.dummy_monsters = {
             0: Monster('Atrox', 10),
@@ -187,6 +189,8 @@ class Game:
         if not self.dialog_tree:
             self.dialog_tree = DialogTree(character, self.player, self.all_sprites, self.fonts['dialog'], self.end_dialog)
     
+    # Corrected Logic in main.py:
+
     def end_dialog(self, character):
         self.dialog_tree = None
         if character.nurse:
@@ -194,7 +198,11 @@ class Game:
                 monster.health = monster.get_stat('max_health')
                 monster.energy = monster.get_stat('max_energy')
 
-        self.player.unblock()
+        elif not character.character_data['defeated']:
+            print('start battle')
+            # self.battle = Battle(...) # Eventually you'll create the battle here
+        
+        self.player.unblock() # Unblock player regardless of outcome
 
     #transition system
     def transition_check(self):
