@@ -164,11 +164,8 @@ class Battle:
         target_sprite.monster.health -= amount * target_defense
 
 		# resume 
-        
-        print(target_sprite)
-        print(attack)
-        print(amount)
-
+        self.update_all_monsters('resume')
+    
     #ui
     def draw_ui(self):
         if self.current_monster:
