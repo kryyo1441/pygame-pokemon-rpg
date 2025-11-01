@@ -188,7 +188,12 @@ class Battle:
          for monster_sprite in self.opponent_sprites.sprites() + self.player_sprites.sprites():
               if monster_sprite.monster.health <= 0:
                     if self.player_sprites in monster_sprite.groups(): # player
-                        pass
+                        active_monsters = [(monster_sprite.index, monster_sprite.monster) for monster_sprite in self.player_sprites.sprites()]
+                        available_monsters = [(index, monster) for index, monster in self.monster_data['player'].items() if monster.health > 0 and (index, monster) not in active_monsters]
+                        if available_monsters:                       
+                            new_monster_data = [(monster, index, monster_sprite.pos_index, 'player') for index, monster in available_monsters[0]]
+                        else:
+                            new_monster_data= None
                     else:
                         new_monster_data = (list(self.monster_data['opponent'].values())[0], monster_sprite.index, monster_sprite.pos_index, 'opponent') if self.monster_data['opponent'] else None
                         if self.monster_data['opponent']:
