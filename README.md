@@ -8,14 +8,16 @@ A turn-based RPG game developed using Pygame, featuring monster battles and trai
 
 Visual documentation of key game components:
 
-![Title Screen](readme/title.png)
-Interface implementation demonstrating the game's entry point
+### Screenshots
 
-![Battle Scene](readme/battle.png)
-Battle system implementation with turn-based combat
+![Title Screen](screenshots/title.png)  
+*Title screen and main menu.*
 
-![Overworld](readme/spawn.png)
-World navigation and character interaction system
+![Battle Scene](screenshots/battle.png)  
+*Turn-based battle UI showing combat and actions.*
+
+![Overworld](screenshots/spawn.png)  
+*Overworld map, player movement, and NPC interactions.*
 
 ## Quick Start
 
