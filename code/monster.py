@@ -55,8 +55,13 @@ class Monster:
         return self.get_stat('attack') * ATTACK_DATA[attack]['amount']
     
     def update_xp(self, amount):
-        self.xp += amount
-
+        if self.level_up - self.xp > amount:
+            self.xp += amount
+        else:
+            self.level += 1
+            self.xp = amount - (self.level_up - self.xp)
+            self.level_up = self.level * 150
+            
     #update methods
     def update(self, dt):
         if not self.paused:
