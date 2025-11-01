@@ -198,11 +198,11 @@ class Game:
                 monster.energy = monster.get_stat('max_energy')
 
         elif not character.character_data['defeated']:
-            Battle(
+           self.battle = Battle(
                 player_monsters = self.player_monsters,
-                 opponent_monsters = self.dummy_monsters,
+                 opponent_monsters = character.monsters,
                   monster_frames = self.monster_frames,
-                   bg_surf = self.bg_frames['forest'],
+                   bg_surf = self.bg_frames[character.character_data['biome']],
                     fonts = self.fonts)            # self.battle = Battle(...) # Eventually you'll create the battle here
         
         self.player.unblock() # Unblock player regardless of outcome
