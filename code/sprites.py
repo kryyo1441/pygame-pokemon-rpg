@@ -78,6 +78,10 @@ class MonsterSprite(pygame.sprite.Sprite):
 
     def animate(self, dt):
         self.frame_index += ANIMATION_SPEED * dt
+        if self.state == 'attack' and self.frame_index >= len(self.frames['attack']):
+            #apply attack
+            self.state = 'idle'
+
         self.adjusted_frame_index = int(self.frame_index) % len(self.frames[self.state])
         # The animation uses the frame list corresponding to the current 'self.state'
         self.image = self.frames[self.state][self.adjusted_frame_index]
