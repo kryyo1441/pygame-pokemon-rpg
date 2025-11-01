@@ -78,7 +78,7 @@ Project developed by:
   - Core battle system and logic
   - Primary game mechanics
 
-* **Archit Deorkar** (Roll No. 372)
+* **Archit Deorukhakar** (Roll No. 372)
   - GitHub: arctic (58 commits: +765 -127)
   - Monster index implementation
   - Battle screen design
