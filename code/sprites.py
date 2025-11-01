@@ -49,7 +49,7 @@ class TransitionSprite(Sprite):
 
 # battle sprites
 class MonsterSprite(pygame.sprite.Sprite):
-    def __init__(self, pos, frames, groups, monster, index, pos_index, entity):
+    def __init__(self, pos, frames, groups, monster, index, pos_index, entity, apply_attack):
         # FIX: Call the parent constructor first to ensure the sprite is added to its groups
         # (e.g., self.battle_sprites) before it is used.
         super().__init__(groups)
@@ -65,6 +65,7 @@ class MonsterSprite(pygame.sprite.Sprite):
         self.highlight = False
         self.target_sprite = None
         self.current_attack = None
+        self.apply_attack = apply_attack
 
         #sprite setup
         # Removed the redundant/misplaced 'super().__init__(groups)' call here.
@@ -79,7 +80,7 @@ class MonsterSprite(pygame.sprite.Sprite):
     def animate(self, dt):
         self.frame_index += ANIMATION_SPEED * dt
         if self.state == 'attack' and self.frame_index >= len(self.frames['attack']):
-            #apply attack
+            self.apply_attack(self.target_sprite, self.current_attack, self.monster.get_base_damage(self.current_attack))
             self.state = 'idle'
 
         self.adjusted_frame_index = int(self.frame_index) % len(self.frames[self.state])

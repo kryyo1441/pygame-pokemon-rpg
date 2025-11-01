@@ -54,7 +54,7 @@ class Battle:
             groups = (self.battle_sprites, self.opponent_sprites)
         # ----------------------------------------------------
 
-        monster_sprite = MonsterSprite(pos, frames, groups, monster, index, pos_index, entity)
+        monster_sprite = MonsterSprite(pos, frames, groups, monster, index, pos_index, entity, self.apply_attack)
         MonsterOutlineSprite(monster_sprite, self.battle_sprites, outline_frames)
 
 
@@ -138,7 +138,12 @@ class Battle:
             monster_sprite.monster.paused = True if option == 'pause' else False
 
 
-#ui
+    def apply_attack(self, target_sprite, attack, amount):
+        print(target_sprite)
+        print(attack)
+        print(amount)
+
+    #ui
     def draw_ui(self):
         if self.current_monster:
             if self.selection_mode == 'general':
