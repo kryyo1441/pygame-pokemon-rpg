@@ -140,6 +140,31 @@ class Battle:
 
     def apply_attack(self, target_sprite, attack, amount):
         AttackSprite(target_sprite.rect.center, self.monster_frame['attacks'][ATTACK_DATA[attack]['animation']], self.battle_sprites)
+        
+        # get correct attack damage amount (defense, element)
+        attack_element = ATTACK_DATA[attack]['element']
+        target_element = target_sprite.monster.element
+
+        # doube attack
+        if  attack_element == 'fire'  and target_element == 'plant' or \
+            attack_element == 'water' and target_element == 'fire'  or \
+            attack_element == 'plant' and target_element == 'water':
+            amount *= 2
+
+        # halve attack
+        if attack_element == 'fire'  and target_element == 'water' or \
+		   attack_element == 'water' and target_element == 'plant' or \
+		   attack_element == 'plant' and target_element == 'fire':
+           amount *= 0.5
+
+        target_defense = 1 - target_sprite.monster.get_stat('defense') / 2000
+        target_defense = max(0, min(1, target_defense))
+
+		# update the monster health 
+        target_sprite.monster.health -= amount * target_defense
+
+		# resume 
+        
         print(target_sprite)
         print(attack)
         print(amount)
