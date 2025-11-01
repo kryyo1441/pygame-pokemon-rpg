@@ -89,7 +89,6 @@ class Battle:
                     sprite_group = self.opponent_sprites if self.selection_side == 'opponent' else self.player_sprites
                     sprites = {sprite.pos_index: sprite for sprite in sprite_group}
                     monster_sprite = sprites[list(sprites.keys())[self.indexes['target']]]
-                    print(monster_sprite.monster)
 
                 if self.selection_mode == 'attacks':
                     self.selection_mode = 'target'
@@ -238,6 +237,6 @@ class Battle:
 
         #drawing logic
         self.display_surface.blit(self.bg_surf, (0,0))
-        self.battle_sprites.draw(self.current_monster)
+        self.battle_sprites.draw(self.current_monster, self.selection_side, self.selection_mode, self.indexes['target'],self.player_sprites, self.opponent_sprites)
         self.draw_ui()
 
