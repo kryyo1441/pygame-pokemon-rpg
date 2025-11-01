@@ -32,7 +32,7 @@ class Game:
         }
 
         self.dummy_monsters = {
-            0: Monster('Atrox', 15),
+            0: Monster('Atrox', 50),
 			1: Monster('Sparchu', 3),
 			2: Monster('Gulfin', 3),
 			3: Monster('Jacana', 2),

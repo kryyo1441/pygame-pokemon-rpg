@@ -42,7 +42,7 @@ class BattleSprites(pygame.sprite.Group):
         for sprite in sorted(self, key = lambda sprite: sprite.z):
             if sprite.z == BATTLE_LAYERS['outline']:
                 if sprite.monster_sprite == current_monster_sprite and not (mode == 'target' and side == 'player') or\
-                    sprite.monster_sprite == monster_sprite: 
+                    sprite.monster_sprite == monster_sprite and sprite.monster_sprite.entity == side and mode and mode == 'target': 
                     self.display_surface.blit(sprite.image, sprite.rect)
             else:
                 self.display_surface.blit(sprite.image, sprite.rect)

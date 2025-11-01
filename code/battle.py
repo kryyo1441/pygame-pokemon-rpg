@@ -3,6 +3,8 @@ from sprites import MonsterSprite, MonsterNameSprite , MonsterLevelSprite, Monst
 from groups import BattleSprites
 from game_data import ATTACK_DATA
 from support import draw_bar
+from timer import Timer
+from random import choice
 
 class Battle:
     #main
@@ -13,6 +15,11 @@ class Battle:
         self.monster_frame = monster_frames
         self.fonts = fonts
         self.monster_data = {'player': player_monsters, 'opponent': opponent_monsters}
+
+        #timers
+        self.timer = {
+            'opponent delay': Timer(600, func = self.opponent_attack)
+        }
 
         #groups
         self.battle_sprites = BattleSprites()
@@ -125,6 +132,10 @@ class Battle:
                 if self.selection_mode in ('attacks','switch','target'):
                     self.selection_mode = 'general'
 
+    def update_timer(self):
+        for timer in self.timer.values():
+            timer.update()
+
     #battle system
     def check_active(self):
         for monster_sprite in self.player_sprites.sprites() + self.opponent_sprites.sprites():
@@ -135,6 +146,8 @@ class Battle:
                 self.current_monster = monster_sprite
                 if self.player_sprites in monster_sprite.groups():
                     self.selection_mode = 'general'
+                else:
+                    self.timer['opponent delay'].activate()
             
 
     def update_all_monsters(self, option):
@@ -182,6 +195,13 @@ class Battle:
                             del self.monster_data['opponent'][min(self.monster_data['opponent'])]
 					# xp
                     monster_sprite.delayed_kill(new_monster_data)
+
+    def opponent_attack(self):
+        ability = choice(self.current_monster.monster.get_abilities())
+        print(ability)
+        random_target = 
+        #self.current_monster.activate_attack(random_target,ability)
+
 
     #ui
     def draw_ui(self):
@@ -284,6 +304,7 @@ class Battle:
     def update(self, dt):
         #updates
         self.input()
+        self.update_timer()
         self.battle_sprites.update(dt)
         self.check_active()
 
