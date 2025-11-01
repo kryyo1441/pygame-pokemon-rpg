@@ -97,7 +97,7 @@ class Battle:
                         print(catch)    
                         
             if keys[pygame.K_ESCAPE]:
-                if self.selection_mode in ('attack','switch','target'):
+                if self.selection_mode in ('attacks','switch','target'):
                     self.selection_mode = 'general'
 
     #battle system
