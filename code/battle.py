@@ -22,6 +22,7 @@ class Battle:
         #control
         self.current_monster = None
         self.selection_mode  = None
+        self.selected_attack = None
         self.selection_side  = 'player'
         self.indexes = {
             'general': 0,
@@ -81,6 +82,15 @@ class Battle:
             if keys[pygame.K_UP]:
                 self.indexes[self.selection_mode] = (self.indexes[self.selection_mode] - 1) % limiter
             if keys[pygame.K_SPACE]:
+                if self.selection_mode == 'attacks':
+                    # self.selection_mode = 'target'
+                    self.selected_attack = self.current_monster.monster.get_abilities(all = False)
+                    print(self.selected_attack)
+
+                    #self.selection_side
+
+
+
                 if self.selection_mode == 'general':
                     if self.indexes['general'] == 0:
                         self.selection_mode = 'attacks'
