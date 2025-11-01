@@ -198,13 +198,15 @@ class Game:
                 monster.energy = monster.get_stat('max_energy')
 
         elif not character.character_data['defeated']:
-           self.battle = Battle(
+           self.transition_target = Battle(
                 player_monsters = self.player_monsters,
                  opponent_monsters = character.monsters,
                   monster_frames = self.monster_frames,
                    bg_surf = self.bg_frames[character.character_data['biome']],
-                    fonts = self.fonts)            # self.battle = Battle(...) # Eventually you'll create the battle here
+                    fonts = self.fonts)  
+        self.tint_mode = 'tint'
         
+
         self.player.unblock() # Unblock player regardless of outcome
 
     #transition system
@@ -223,7 +225,12 @@ class Game:
         if self.tint_mode == 'tint':
             self.tint_progress += self.tint_speed * dt
             if self.tint_progress >= 255:
-                self.setup(self.tmx_maps[self.transition_target[0]], self.transition_target[1])
+                if type(self.transition_target) == Battle:
+                    self.battle = self.transition_target
+                elif self.transition_target == 'level':
+                    self.battle = None
+                else:
+                    self.setup(self.tmx_maps[self.transition_target[0]], self.transition_target[1])
                 self.tint_mode = 'untint'
                 self.transition_target = None
 
