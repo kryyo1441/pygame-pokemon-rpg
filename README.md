@@ -72,11 +72,11 @@ Here's a flowchart of the game's main systems:
 
 Project developed by:
 
-* **Vedant Garud** (Roll No. 70)
+* **Vedant Garud** (Roll No. 370)
   - GitHub: vedantgrd (86 commits: +14,540 -2,529)
-  - Overworld development
-  - Core battle system and logic
-  - Primary game mechanics
+  - Project directories and core file structure
+  - Game world, overworld animations, player character setup and movement system
+  - Full battle system including attacks, monster catching and switching, enemy AI and battle menu.
 
 * **Archit Deorkar** (Roll No. 372)
   - GitHub: arctic (58 commits: +765 -127)
