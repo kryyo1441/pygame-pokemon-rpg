@@ -203,7 +203,10 @@ class Game:
                  opponent_monsters = character.monsters,
                   monster_frames = self.monster_frames,
                    bg_surf = self.bg_frames[character.character_data['biome']],
-                    fonts = self.fonts)  
+                    fonts = self.fonts,
+                    end_battle = self.end_battle,
+                    character=character
+                    )  
         self.tint_mode = 'tint'
         
 
@@ -240,6 +243,14 @@ class Game:
         self.tint_progress = max(0, min(self.tint_progress, 255))
         self.tint_surf.set_alpha(self.tint_progress)
         self.display_surface.blit(self.tint_surf, (0,0))
+
+    def end_battle(self, character):
+        self.transition_target = 'level' 
+        self.tint_mode = 'tint'
+        if character:
+            character.character_data['defeated'] = True
+            self.create_dialog(character)
+
             
     def run(self):
         while True:

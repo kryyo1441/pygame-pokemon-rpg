@@ -9,7 +9,7 @@ from random import choice
 
 class Battle:
     # main
-    def __init__(self, player_monsters, opponent_monsters, monster_frames, bg_surf, fonts):
+    def __init__(self, player_monsters, opponent_monsters, monster_frames, bg_surf, fonts, end_battle, character):
         # general
         self.display_surface = pygame.display.get_surface()
         self.bg_surf = bg_surf
@@ -17,6 +17,8 @@ class Battle:
         self.fonts = fonts
         self.monster_data = {'player': player_monsters, 'opponent': opponent_monsters}
         self.battle_over =  False
+        self.end_battle = end_battle
+        self.character = character
 
         # timers
         self.timer = {
@@ -236,7 +238,7 @@ class Battle:
 		# opponents have been defeated 
         if len(self.opponent_sprites) == 0 and not self.battle_over:
             self.battle_over = True
-            print('battle won')
+            self.end_battle(self.character)
             for monster in self. monster_data['player'].values():
                 monster.initiative = 0
 

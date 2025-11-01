@@ -64,8 +64,7 @@ class Character(Entity):
         self.create_dialog = create_dialog
         self.collision_rects = [sprite.rect for sprite in collision_sprites if sprite is not self]
         self.nurse = nurse
-        # FIX: Corrected typo from 'charachter_data' to 'character_data'
-        self.monsters = {i: Monster(name, lvl) for i, (name, lvl) in character_data['monsters'].items()} if 'monsters' in character_data else None
+        self.monsters = {i: Monster(name, lvl) for i, (name, lvl) in charachter_data['monsters'].items()} if 'monsters' in charachter_data else None
         
         # movement
         self.has_moved = False
