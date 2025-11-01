@@ -138,7 +138,7 @@ class Battle:
                     if self.indexes['general'] == 3:
                         self.selection_mode = 'target'
                         self.selection_side = 'opponent'
-
+  
                 self.indexes = {k: 0 for k in self.indexes}
 
             if keys[pygame.K_ESCAPE]:
