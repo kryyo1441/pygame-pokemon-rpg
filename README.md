@@ -10,7 +10,7 @@ Visual documentation of key game components:
 
 ### Screenshots
 
-![Title Screen](screenshots/title.png)  
+![Title Screen](screenshots/gameover.png)  
 *Title screen and main menu.*
 
 ![Battle Scene](screenshots/battle.png)  
