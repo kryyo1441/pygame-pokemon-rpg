@@ -62,8 +62,14 @@ class Monster:
             self.xp = amount - (self.level_up - self.xp)
             self.level_up = self.level * 150
 
+
+    def stat_limiter(self):
+        self.health = max(0, min(self.health, self.get_stat('max_health')))
+        self.energy = max(0, min(self.energy, self.get_stat('max_energy')))
+
     #update methods
     def update(self, dt):
+        self.stat_limiter()
         if not self.paused:
             self.initiative += self.get_stat('speed') * dt
         
