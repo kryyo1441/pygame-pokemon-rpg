@@ -172,8 +172,11 @@ class Battle:
               if monster_sprite.monster.health <= 0:
                 if self.player_sprites in monster_sprite.groups(): # player's side
                    pass
-                else:   
+                else:
+                    #new monster   
                     monster_sprite.kill()
+
+                    
 
     #ui
     def draw_ui(self):

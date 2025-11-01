@@ -123,6 +123,8 @@ class MonsterOutlineSprite(pygame.sprite.Sprite):
 
     def update(self, _):
         self.image = self.frames[self.monster_sprite.state][self.monster_sprite.adjusted_frame_index]
+        if not self.monster_sprite.groups():
+             self.kill()
 
 
 class MonsterNameSprite(pygame.sprite.Sprite):
@@ -138,6 +140,10 @@ class MonsterNameSprite(pygame.sprite.Sprite):
         self.image.fill(COLORS['white'])
         self.image.blit(text_surf, (padding,padding))
         self.rect = self.image.get_rect(midtop = pos)
+
+    def update(self, _):
+         if not self.monster_sprite.groups():
+              self.kill()
 
 class MonsterLevelSprite(pygame.sprite.Sprite):
 
@@ -162,6 +168,9 @@ class MonsterLevelSprite(pygame.sprite.Sprite):
         self.image.blit(text_surf, text_rect)
 
         draw_bar(self.image, self.xp_rect, self.monster_sprite.monster.xp, self.monster_sprite.monster.level_up, COLORS['black'], COLORS['white'], 0)
+
+        if not self.monster_sprite.groups():
+             self.kill()
 
 
 class MonsterStatsSprite(pygame.sprite.Sprite):
@@ -191,6 +200,8 @@ class MonsterStatsSprite(pygame.sprite.Sprite):
                 init_rect = pygame.FRect((self.rect.width * 0.05, self.rect.height * 0.75), (self.rect.width * 0.9, 4))
                 draw_bar(self.image, init_rect, value, max_value, color, COLORS['white'], 2)
 
+        if not self.monster_sprite.groups():
+             self.kill()
 
 class AttackSprite(AnimatedSprite):
 	def __init__(self, pos, frames, groups):
