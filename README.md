@@ -75,8 +75,9 @@ Project developed by:
 * **Vedant Garud** (Roll No. 370)
   - GitHub: vedantgrd (86 commits: +14,540 -2,529)
   - Project directories and core file structure
-  - Game world, overworld animations, player character setup and movement system
-  - Full battle system including attacks, monster catching and switching, enemy AI and battle menu.
+  - Game world & overworld animations, character setup and movement system
+  - Complete battle system including attacks, monster catching and switching
+  - Enemy AI, battle menu, and overall battle flow management
 
 * **Archit Deorukhakar** (Roll No. 372)
   - GitHub: arctic (58 commits: +765 -127)
