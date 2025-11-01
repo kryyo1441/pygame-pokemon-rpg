@@ -221,28 +221,35 @@ class Game:
             self.tint_mode = 'tint'
 
     def tint_screen(self, dt):
+        # Handle tint/untint transitions
         if self.tint_mode == 'untint':
             self.tint_progress -= self.tint_speed * dt
+            if self.tint_progress <= 0:
+                self.tint_progress = 0
+                if self.transition_target is None:
+                    self.tint_mode = None  # Complete the transition
         
-        
-        if self.tint_mode == 'tint':
+        elif self.tint_mode == 'tint':
             self.tint_progress += self.tint_speed * dt
             if self.tint_progress >= 255:
-                if type(self.transition_target) == Battle:
-                    self.battle = self.transition_target
-                elif self.transition_target == 'level':
-                    self.battle = None
-                else:
-                    self.setup(self.tmx_maps[self.transition_target[0]], self.transition_target[1])
+                self.tint_progress = 255
+                # Handle the different types of transitions
+                if self.transition_target is not None:  # Make sure we have a target
+                    if isinstance(self.transition_target, Battle):
+                        self.battle = self.transition_target
+                        self.transition_target = None
+                    elif self.transition_target == 'level':
+                        self.battle = None
+                        self.transition_target = None
+                    elif isinstance(self.transition_target, tuple) and len(self.transition_target) == 2:
+                        self.setup(self.tmx_maps[self.transition_target[0]], self.transition_target[1])
+                        self.transition_target = None
                 self.tint_mode = 'untint'
-                self.transition_target = None
 
-        self.tint_surf.set_alpha(self.tint_progress)
-        self.display_surface.blit(self.tint_surf, (0,0))
-
-        self.tint_progress = max(0, min(self.tint_progress, 255))
-        self.tint_surf.set_alpha(self.tint_progress)
-        self.display_surface.blit(self.tint_surf, (0,0))
+        # Apply the tint effect
+        if self.tint_progress > 0:
+            self.tint_surf.set_alpha(int(self.tint_progress))
+            self.display_surface.blit(self.tint_surf, (0,0))
 
     def end_battle(self, character):
         self.transition_target = 'level' 
