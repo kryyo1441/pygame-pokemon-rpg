@@ -8,6 +8,8 @@ from groups import AllSprites
 from dialog import *
 from monster_index import MonsterIndex
 from battle import Battle
+from title_screen import TitleScreen
+from game_over_screen import GameOverScreen
 
 from support import *
 from monster import Monster #import monster file
@@ -18,7 +20,11 @@ class Game:
         pygame.init()
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption('pokemon-rpg')
-        self.clock= pygame.time.Clock()
+        self.clock = pygame.time.Clock()
+        self.title_screen = TitleScreen()
+        self.game_over_screen = GameOverScreen()
+        self.game_started = False
+        self.game_over = False
         
         #player monster
         self.player_monsters = {
@@ -251,39 +257,113 @@ class Game:
             self.tint_surf.set_alpha(int(self.tint_progress))
             self.display_surface.blit(self.tint_surf, (0,0))
 
+    def check_game_over(self):
+        # Check if all player's monsters are defeated
+        all_defeated = True
+        for monster in self.player_monsters.values():
+            if monster.health > 0:
+                all_defeated = False
+                break
+        if all_defeated:
+            self.game_over = True
+
     def end_battle(self, character):
         self.transition_target = 'level' 
         self.tint_mode = 'tint'
         if character:
             character.character_data['defeated'] = True
             self.create_dialog(character)
+        
+        # Check for game over after each battle
+        self.check_game_over()
 
             
+    def start_game(self):
+        self.game_started = True
+        
+        #player monster
+        self.player_monsters = {
+            0: Monster('Charmadillo', 30),
+            1: Monster('Friolera', 29),
+            2: Monster('Cindrill', 16),
+            3: Monster('Atrox', 10),
+            4: Monster('Sparchu', 11),
+            5: Monster('Gulfin', 9),
+            6: Monster('Jacana', 10)
+        }
+        for monster in self.player_monsters.values():
+            monster.health *= 0.5
+
+        self.dummy_monsters = {
+            0: Monster('Atrox', 10),
+            1: Monster('Sparchu', 3),
+            2: Monster('Gulfin', 3),
+            3: Monster('Jacana', 2),
+            4: Monster('Pouch', 3)
+        }
+
+        #groups
+        self.all_sprites = AllSprites()
+        self.collision_sprites = pygame.sprite.Group()
+        self.character_sprites = pygame.sprite.Group()
+        self.transition_sprites = pygame.sprite.Group()
+
+        self.import_assets()
+        self.setup(self.tmx_maps['world'], 'house')
+        
+        #overlay
+        self.dialog_tree = None
+        self.monster_index = MonsterIndex(self.player_monsters, self.fonts, self.monster_frames)
+        self.index_open = False
+        self.battle = None
+
     def run(self):
         while True:
-            # event loop 
-            dt = self.clock.tick() / 1000 #dt will give the diff of current frame and the last frame
-            self.display_surface.fill("Black")
+            dt = self.clock.tick() / 1000
+            
+            # Handle events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit()
-
-            # game logic update
-            self.input()
-            self.transition_check()
-            self.all_sprites.update(dt)
-
-            #draw the game
-            self.all_sprites.draw(self.player)
             
+            if not self.game_started:
+                # Title screen
+                action = self.title_screen.handle_input()
+                if action == 'play':
+                    self.start_game()
+                elif action == 'exit':
+                    pygame.quit()
+                    exit()
+                self.title_screen.draw()
+            elif self.game_over:
+                # Game Over screen
+                action = self.game_over_screen.handle_input()
+                if action == 'play_again':
+                    # Reset game state
+                    self.game_over = False
+                    self.game_started = False
+                elif action == 'exit':
+                    pygame.quit()
+                    exit()
+                self.game_over_screen.draw()
+            else:
+                # Game logic
+                self.input()
+                self.transition_check()
+                self.all_sprites.update(dt)
 
-            #overlays repeat
-            if self.dialog_tree: self.dialog_tree.update()
-            if self.index_open:  self.monster_index.update(dt)
-            if self.battle:      self.battle.update(dt)
+                # Draw game
+                self.display_surface.fill("Black")
+                self.all_sprites.draw(self.player)
 
-            self.tint_screen(dt)    
+                # Overlays
+                if self.dialog_tree: self.dialog_tree.update()
+                if self.index_open:  self.monster_index.update(dt)
+                if self.battle:      self.battle.update(dt)
+                
+                self.tint_screen(dt)
+            
             pygame.display.update()
             
             
