@@ -198,9 +198,12 @@ class Battle:
 
     def opponent_attack(self):
         ability = choice(self.current_monster.monster.get_abilities())
-        print(ability)
-        random_target = 
-        #self.current_monster.activate_attack(random_target,ability)
+        side = ATTACK_DATA[ability]['target']
+        if side == 'player':
+            random_target = choice(self.opponent_sprites.sprites())
+        else:
+            random_target = choice(self.player_sprites.sprites())
+        self.current_monster.activate_attack(random_target,ability)
 
 
     #ui
