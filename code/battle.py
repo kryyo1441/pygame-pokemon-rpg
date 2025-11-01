@@ -1,5 +1,5 @@
 from settings import * 
-from sprites import MonsterSprite, MonsterNameSprite , MonsterLevelSprite, MonsterStatsSprite, MonsterOutlineSprite
+from sprites import MonsterSprite, MonsterNameSprite , MonsterLevelSprite, MonsterStatsSprite, MonsterOutlineSprite, AttackSprite
 from groups import BattleSprites
 from game_data import ATTACK_DATA
 from support import draw_bar
@@ -139,6 +139,7 @@ class Battle:
 
 
     def apply_attack(self, target_sprite, attack, amount):
+        AttackSprite(target_sprite.rect.center, self.monster_frame['attacks'][ATTACK_DATA[attack]['animation']], self.battle_sprites)
         print(target_sprite)
         print(attack)
         print(amount)
