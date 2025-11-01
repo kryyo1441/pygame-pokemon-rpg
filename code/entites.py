@@ -2,6 +2,7 @@ from settings import *
 from support import check_connections
 from timer import Timer 
 from random import choice
+from monster import Monster
 # Assuming vector is imported/defined elsewhere, e.g., from pygame.math import Vector2 as vector
 
 class Entity(pygame.sprite.Sprite):
@@ -63,6 +64,8 @@ class Character(Entity):
         self.create_dialog = create_dialog
         self.collision_rects = [sprite.rect for sprite in collision_sprites if sprite is not self]
         self.nurse = nurse
+        # FIX: Corrected typo from 'charachter_data' to 'character_data'
+        self.monsters = {i: Monster(name, lvl) for i, (name, lvl) in character_data['monsters'].items()} if 'monsters' in character_data else None
         
         # movement
         self.has_moved = False

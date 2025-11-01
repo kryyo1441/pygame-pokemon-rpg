@@ -65,7 +65,6 @@ class Game:
         self.dialog_tree = None
         self.monster_index = MonsterIndex(self.player_monsters, self.fonts, self.monster_frames)
         self.index_open = False
-        #self.battle = Battle(self.player_monsters, self.dummy_monsters, self.monster_frames, self.bg_frames['forest'], self.fonts)
         self.battle = None
 
     def import_assets(self):
@@ -199,8 +198,12 @@ class Game:
                 monster.energy = monster.get_stat('max_energy')
 
         elif not character.character_data['defeated']:
-            print('start battle')
-            # self.battle = Battle(...) # Eventually you'll create the battle here
+            Battle(
+                player_monsters = self.player_monsters,
+                 opponent_monsters = self.dummy_monsters,
+                  monster_frames = self.monster_frames,
+                   bg_surf = self.bg_frames['forest'],
+                    fonts = self.fonts)            # self.battle = Battle(...) # Eventually you'll create the battle here
         
         self.player.unblock() # Unblock player regardless of outcome
 
