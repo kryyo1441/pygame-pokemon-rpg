@@ -50,7 +50,7 @@ Here's a flowchart of the game's main systems:
           |                |                    |                |
     [Player Movement]  [NPCs/Trainers]     [Transitions]   [Menu System]
           |                |                    |                |
-    [Collisions]     [Dialogue]         [Battle System]   [Monster Index]
+    [Collisions]     [Dialogue]------------[Battle System]   [Monster Index]
                           |                    |
                           |                    |
                           |        [Current Monster Actions]
@@ -68,32 +68,37 @@ Here's a flowchart of the game's main systems:
                      [Return to World]
 ```
 
-## The Squad Behind the Game 👥
+## Development Team (SY IT A Division)
 
-Our awesome team of developers who brought this to life:
+Project developed by:
 
-* **vedantgrd** (86 commits: +14,540 -2,529)
+* **Vedant Garud** (Roll No. 70)
+  - GitHub: vedantgrd (86 commits: +14,540 -2,529)
   - Overworld development
   - Core battle system and logic
   - Primary game mechanics
 
-* **arctic** (58 commits: +765 -127)
+* **Archit Deorkar** (Roll No. 372)
+  - GitHub: arctic (58 commits: +765 -127)
   - Monster index implementation
   - Battle screen design
   - Battle logic enhancements
   - Animation systems
 
-* **kryyo1441** (55 commits: +719 -233)
+* **Aayush Nair** (Roll No. 371)
+  - GitHub: kryyo1441 (55 commits: +719 -233)
   - Overworld features
   - Battle animations
   - Bug fixes and polish
   - Final gameplay tweaks
 
-* **vicharerushi2005** (27 commits: +310 -88)
+* **Rushikesh Vichare** (Roll No. 369)
+  - Github: vicharerushi2005 (27 commits: +310 -88)
   - Battle system setup
   - Battle completion mechanics
 
-* **Apekshat69** (22 commits: +737 -70)
+* **Apeksha Tandel** (Roll No. 68)
+  - GitHub: Apekshat69 (22 commits: +737 -70)
   - Dialogue system
   - Battle setup assistance
 
