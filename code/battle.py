@@ -16,6 +16,7 @@ class Battle:
         self.monster_frame = monster_frames
         self.fonts = fonts
         self.monster_data = {'player': player_monsters, 'opponent': opponent_monsters}
+        self.battle_over =  False
 
         # timers
         self.timer = {
@@ -231,6 +232,19 @@ class Battle:
             random_target = choice(self.player_sprites.sprites())
         self.current_monster.activate_attack(random_target, ability)
 
+    def check_end_battle(self):
+		# opponents have been defeated 
+        if len(self.opponent_sprites) == 0 and not self.battle_over:
+            self.battle_over = True
+            print('battle won')
+            for monster in self. monster_data['player'].values():
+                monster.initiative = 0
+
+		# player has been defeated 
+        if len(self.player_sprites) == 0:
+            pygame.quit()
+            exit()
+    
     # ui
     def draw_ui(self):
         if self.current_monster:
@@ -315,6 +329,7 @@ class Battle:
                          COLORS['blue'], COLORS['black'])
 
     def update(self, dt):
+        self.check_end_battle()
         self.input()
         self.update_timer()
         self.battle_sprites.update(dt)
